@@ -1,0 +1,228 @@
+name: "New Dataset Submission"
+description: "Submit a dataset."
+title: "[Dataset] <dataset id> — <dataset name>"
+labels: ["dataset:submission"]
+
+body:
+
+  - type: input
+    id: dataset_id
+    attributes:
+      label: Dataset ID
+      description: "Unique key in datasets.json. Use letters/numbers and - _ . only (no spaces). Example: MINC-2500"
+      placeholder: "MINC-2500"
+    validations:
+      required: true
+
+  - type: input
+    id: dataset_name
+    attributes:
+      label: Dataset Name
+      placeholder: "MINC: Materials in Context Database-2500"
+    validations:
+      required: true
+
+  - type: textarea
+    id: authors
+    attributes:
+      label: Authors
+      description: "Single string, comma-separated. Example: 'First Last, First Last, ...'"
+      placeholder: "Sean Bell, Paul Upchurch, Noah Snavely, Kavita Bala"
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: Year
+      description: "4-digit year."
+      placeholder: "2015"
+    validations:
+      required: true
+
+  - type: input
+    id: doi
+    attributes:
+      label: DOI (optional)
+      placeholder: "https://doi.org/..."
+    validations:
+      required: false
+
+  - type: input
+    id: paper
+    attributes:
+      label: Paper Title (optional)
+      placeholder: "Material Recognition in the Wild with the Materials in Context Database"
+    validations:
+      required: false
+
+  - type: input
+    id: access
+    attributes:
+      label: Access / Download URL
+      description: "Direct dataset access or official download/landing page."
+      placeholder: "http://... or https://..."
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: "Examples: CC BY 4.0, CC0, MIT, APACHE-2.0, GPL-3.0"
+      placeholder: "CC BY 4.0"
+    validations:
+      required: true
+
+  - type: input
+    id: data_modality
+    attributes:
+      label: Data Modality
+      description: "Example: Ground RGB, Aerial RGB, LiDAR, Thermal, Point Cloud, Multimodal, etc."
+      placeholder: "Ground RGB"
+    validations:
+      required: true
+
+  - type: textarea
+    id: annotation_types
+    attributes:
+      label: Annotation Types
+      description: "Provide one per line (preferred) or comma-separated."
+      placeholder: |
+        Patch material classification
+        Full scene material classification
+    validations:
+      required: true
+
+  - type: textarea
+    id: potential_tasks
+    attributes:
+      label: Potential Tasks
+      description: "Provide one per line (preferred) or comma-separated."
+      placeholder: |
+        Image Classification
+    validations:
+      required: true
+
+  - type: input
+    id: num_images
+    attributes:
+      label: Number of Data (optional)
+      description: "Integer preferred; you may use approximate strings like '~1M' if needed."
+      placeholder: "57500"
+    validations:
+      required: false
+
+  - type: input
+    id: num_classes
+    attributes:
+      label: Number of Classes (optional)
+      placeholder: "23"
+    validations:
+      required: false
+
+  - type: textarea
+    id: classes
+    attributes:
+      label: Classes (optional)
+      description: "Provide one per line (preferred) or comma-separated."
+      placeholder: |
+        brick
+        carpet
+        ceramic
+    validations:
+      required: false
+
+  - type: input
+    id: resolution
+    attributes:
+      label: Resolution (optional)
+      placeholder: "362×362"
+    validations:
+      required: false
+
+  - type: input
+    id: geographical_location
+    attributes:
+      label: Geographical Location (optional)
+      description: "Example: 'United States', 'Global', or 'Not Specified'."
+      placeholder: "Not Specified"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "## Contact Information (Required)"
+
+  - type: input
+    id: submitter_name
+    attributes:
+      label: Submitter Name
+    validations:
+      required: true
+
+  - type: input
+    id: submitter_email
+    attributes:
+      label: Submitter Email
+      placeholder: "name@domain.edu"
+    validations:
+      required: true
+
+  - type: input
+    id: submitter_affiliation
+    attributes:
+      label: Submitter Affiliation
+    validations:
+      required: true
+
+  - type: input
+    id: submitter_github
+    attributes:
+      label: Submitter GitHub (optional)
+      placeholder: "@username"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "## Authorship (Required)"
+
+  - type: dropdown
+    id: authorship
+    attributes:
+      label: Authorship
+      options:
+        - "I am submitting as an author of this article/dataset"
+        - "I am not an author but have obtained permission to submit as a third party"
+    validations:
+      required: true
+
+  - type: textarea
+    id: permission_statement
+    attributes:
+      label: Permission statement (required if third-party)
+      description: "If you are not an author, briefly describe how you obtained permission."
+      placeholder: "Permission was granted by <name/organization> on <date>."
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "## Submission Agreement (All Required)"
+
+  - type: checkboxes
+    id: agreements
+    attributes:
+      label: Agreements
+      options:
+        - label: "My contact information is current."
+          required: true
+        - label: "I confirm the metadata is accurate to the best of my knowledge."
+          required: true
+        - label: "I confirm the license information is accurate."
+          required: true
+        - label: "This submission contains no private/sensitive information."
+          required: true
+        - label: "I agree this record may be published in OpenConstruction."
+          required: true

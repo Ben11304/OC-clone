@@ -1,0 +1,3 @@
+[console_scripts]
+openconstruction-mcp = openconstruction_mcp.server:main
+openconstruction-remote = openconstruction_mcp.web:main

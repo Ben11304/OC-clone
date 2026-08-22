@@ -1,0 +1,190 @@
+# OpenConstruction Agent API
+
+Local and remote MCP server plus API helpers for OpenConstruction catalog access.
+
+The first release is a local stdio MCP server. It reads the public OpenConstruction metadata API under `https://www.openconstruction.org/data/`, normalizes catalog records, and exposes them to MCP-compatible assistants.
+
+The remote entry point adds OAuth 2.1 authorization with PKCE, protected-resource discovery, dynamic client registration, refresh-token rotation, and server-side connected accounts for GitHub, Hugging Face, and Baidu Netdisk.
+
+## Install
+
+```bash
+git clone https://github.com/open-construction/open-construction-agent-api.git
+cd open-construction-agent-api
+python -m pip install -e .
+```
+
+## Connect To Claude Desktop
+
+Add this server to your Claude Desktop MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "openconstruction": {
+      "command": "python",
+      "args": ["-m", "openconstruction_mcp.server"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop after saving the configuration.
+
+## Remote MCP with OpenConstruction login
+
+Run the website and remote MCP/API on one origin during development:
+
+```bash
+cp .env.example .env
+# Fill SUPABASE_URL, SUPABASE_ANON_KEY, and OC_TOKEN_ENCRYPTION_KEY.
+set -a && source .env && set +a
+uv run openconstruction-remote
+```
+
+The remote MCP endpoint is:
+
+```text
+http://127.0.0.1:8000/mcp
+```
+
+Compatible MCP clients discover OAuth through:
+
+- `/.well-known/oauth-protected-resource/mcp`
+- `/.well-known/oauth-authorization-server`
+- `/register`, `/authorize`, `/token`, and `/revoke`
+
+The client opens the OpenConstruction authorization page. The user signs in with the existing Supabase-backed OC account and approves the MCP client. Authorization codes are single-use, PKCE S256 is mandatory, access tokens last one hour, and rotating refresh tokens last up to 30 days.
+
+HTTPS is required outside loopback development.
+
+## Connected Accounts
+
+Connected Accounts is implemented but deferred and disabled by default. Set `OC_CONNECTED_ACCOUNTS_ENABLED=true` when the provider applications, production secret storage, and privacy review are ready. Signed-in users will then manage provider access under **Workspace → Connections**. Public resources do not require a connected account.
+
+Create one OAuth application per provider and register these callbacks, replacing the host with `OC_PUBLIC_URL`:
+
+```text
+/api/connections/github/callback
+/api/connections/huggingface/callback
+/api/connections/baidu/callback
+```
+
+Set the corresponding `OC_GITHUB_*`, `OC_HF_*`, and `OC_BAIDU_*` variables from `.env.example`. Provider access and refresh tokens are encrypted with `OC_TOKEN_ENCRYPTION_KEY`; API responses expose only connection status and public account metadata. Keep that key and all provider client secrets in the server's secret manager, never in the website bundle.
+
+Provider references:
+
+- [GitHub OAuth Apps](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)
+- [Hugging Face OAuth](https://huggingface.co/docs/hub/en/oauth)
+- [Baidu OAuth](https://openauth.baidu.com/doc/doc.html)
+
+## Metadata Sources
+
+- `/data/datasets.json`
+- `/data/models.json`
+- `/data/use-cases.json`
+- `/data/oer.json`
+- `/data/tools.json`
+- `/data/guides.json`
+- `/data/contributors.json`
+- `/data/benchmark-results.json`
+- `/data/task-vocabulary.json`
+
+## MCP Tools
+
+- `search_resources`
+- `get_resource`
+- `compare_resources`
+- `get_catalog_stats`
+- `ask_openconstruction`
+- `find_datasets`
+- `run_dataset_discovery`
+- `find_models`
+- `explain_schema`
+- `analyze_catalog_gaps`
+- `prepare_benchmark_submission`
+- `validate_metadata_record`
+- `list_skills`
+- `get_skill`
+- `get_dataset_download_plan`
+- `download_dataset` (local stdio only)
+- `get_download_status` (local stdio only)
+- `cancel_download` (local stdio only)
+
+## Dataset Downloads
+
+OpenConstruction uses the same two acquisition routes as the website:
+
+- `distribution` records resolve to a direct local download.
+- `programmatic_access` records resolve to a provider adapter or structured CLI guidance.
+
+Always call `get_dataset_download_plan` first. It is read-only and reports the
+provider, method, license, authentication requirement, estimated size, and
+whether the local MCP can execute the route. `download_dataset` requires
+`accept_license: true` and starts a background job. Poll the returned
+`download_id` with `get_download_status`; completed downloads include
+`.openconstruction-manifest.json` in the dataset directory.
+
+Provider authentication stays local to the user; OC OAuth and connected-account
+brokerage are not required for dataset downloads. When a protected source has no
+usable local credential, `download_dataset` returns `status: auth_required`,
+provider-specific login steps, a security notice, and the exact safe tool payload
+to retry. The agent should present those steps and wait for the user to complete
+them in a local terminal. It must never ask the user to paste a token, password,
+OAuth authorization code, cookie, or credential file into chat.
+
+The initial local executors support direct HTTP files, `http_files`,
+`github_clone`, `huggingface_snapshot`, and `figshare_files`. Other provider
+methods return `instructions_required` with structured guidance instead of
+executing catalog-provided shell text.
+
+Downloads are sandboxed under `OC_DOWNLOAD_ROOT` (default:
+`~/.openconstruction/datasets`). The optional `destination` is one directory
+name relative to that root. Set `OC_MAX_DOWNLOAD_BYTES` to cap a job's total
+streamed HTTP transfer size and reject datasets whose declared size is above
+the limit; the default is 500 GiB. Git and provider snapshots without declared
+sizes cannot be fully checked before execution. Private Hugging Face datasets
+recognize credentials saved by `hf auth login` as well as `HF_TOKEN` configured
+directly in the local MCP process. Credential values are never included in MCP
+tool results.
+
+Remote HTTP MCP exposes `get_dataset_download_plan` but deliberately does not
+expose tools that write files. A remote server cannot write into the user's
+local filesystem; use the stdio MCP for execution.
+
+## Skills
+
+Skills are reusable workflows over the MCP tools. The repo-owned skill registry lives at:
+
+- `skills/index.json`
+- `skills/<skill-id>/metadata.json`
+
+MCP clients can use `list_skills` or `get_skill`. If the repo remains private, the public website should use a published registry mirror or backend endpoint instead of reading GitHub raw files directly.
+
+`dataset-discovery` is the first executable skill. It is available through `run_dataset_discovery` and returns ranked dataset candidates, fit reasons, checks, and suggested next actions.
+
+To propose a new skill, open a GitHub issue with the skill proposal template. See [CONTRIBUTING.md](CONTRIBUTING.md) for metadata requirements, review checks, and pull request expectations.
+
+Initial official skills focus on:
+
+- dataset discovery
+- dataset comparison
+- model discovery
+- schema explanation
+- catalog gap analysis
+- benchmark preparation
+
+## Development
+
+```bash
+python scripts/validate_skills.py
+python scripts/package_skills.py
+python -m unittest discover -s tests
+python scripts/smoke_stdio.py
+```
+
+Run the MCP server locally:
+
+```bash
+python -m openconstruction_mcp.server
+```

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openconstruction.org/schemas/datasets.schema.json",
+  "title": "OpenConstruction Dataset Catalog Schema",
+  "type": "object",
+  "required": ["schema_version", "datasets"],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "datasets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "year", "license", "url"],
+        "properties": {
+          "id": {
+            "$ref": "schema.common.json#/definitions/id"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "year": {
+            "$ref": "schema.common.json#/definitions/year"
+          },
+          "license": {
+            "$ref": "schema.common.json#/definitions/license"
+          },
+          "url": {
+            "$ref": "schema.common.json#/definitions/url"
+          },
+          "distribution": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["content_url", "filename"],
+              "properties": {
+                "provider": { "type": "string" },
+                "content_url": { "$ref": "schema.common.json#/definitions/url" },
+                "filename": { "type": "string" },
+                "encoding_format": { "type": "string" },
+                "content_size": { "type": "integer", "minimum": 0 },
+                "revision": { "type": "string" },
+                "download_method": { "type": "string", "enum": ["navigate", "fetch"] },
+                "browser_download": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "programmatic_access": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["provider", "method", "scope"],
+              "properties": {
+                "provider": { "type": "string" },
+                "method": { "type": "string", "enum": ["huggingface_snapshot", "github_clone", "figshare_files", "dataverse_collection", "designsafe_globus", "google_drive_folder", "http_files", "dreamhouse_setup", "roboflow_version", "kaggle_competition", "baidu_share_transfer"] },
+                "repo_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$" },
+                "record_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "collection_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "resource_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "folder_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+                "workspace_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "project_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "version": { "type": "string", "pattern": "^[0-9]+$" },
+                "export_format": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "competition_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+                "share_url": { "$ref": "schema.common.json#/definitions/url", "pattern": "^https://(?:www\\.)?pan\\.baidu\\.com/s/[A-Za-z0-9_-]+/?$" },
+                "extraction_code": { "type": "string", "pattern": "^[A-Za-z0-9]{4,8}$" },
+                "api_url": { "$ref": "schema.common.json#/definitions/url" },
+                "source_path": { "type": "string" },
+                "repository_type": { "type": "string", "enum": ["dataset"] },
+                "revision": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" },
+                "scope": { "type": "string", "enum": ["full"] },
+                "requires_auth": { "type": "boolean" },
+                "notice": { "type": "string" },
+                "documentation_url": { "$ref": "schema.common.json#/definitions/url" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "code": {
+            "$ref": "schema.common.json#/definitions/url"
+          },
+          "doi": {
+            "type": "string"
+          },
+          "source_status": {
+            "type": "string",
+            "enum": [
+              "peer-reviewed",
+              "preprint",
+              "community-contributed",
+              "unknown"
+            ]
+          },
+          "contributors": {
+            "$ref": "schema.common.json#/definitions/contributors"
+          },
+          "tasks": {
+            "$ref": "schema.common.json#/definitions/tags"
+          },
+          "task": {
+            "type": "string"
+          },
+          "potential_tasks": {
+            "$ref": "schema.common.json#/definitions/tags"
+          },
+          "modalities": {
+            "$ref": "schema.common.json#/definitions/tags"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

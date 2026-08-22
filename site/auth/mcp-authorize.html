@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Authorize MCP · OpenConstruction</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/shared-site.css?v=20260821-mcp-oauth" rel="stylesheet">
+</head>
+<body class="oc-oauth-consent-page">
+<main class="container py-5">
+  <section class="oc-oauth-consent-card" aria-labelledby="consentTitle">
+    <a class="oc-oauth-consent-brand" href="../index.html">
+      <img src="../assets/img/icon.png" alt="" width="42" height="42">
+      <span>OpenConstruction</span>
+    </a>
+    <p class="oc-auth-kicker">MCP authorization</p>
+    <h1 id="consentTitle">Allow this agent to use OpenConstruction?</h1>
+    <p id="consentSummary" class="oc-oauth-consent-summary">Checking this authorization request...</p>
+    <div class="oc-oauth-permission">
+      <span aria-hidden="true">✓</span>
+      <div>
+        <strong>Search and inspect the public OC catalog</strong>
+        <small>The agent can call OC MCP tools as your signed-in account.</small>
+      </div>
+    </div>
+    <div class="oc-oauth-permission">
+      <span aria-hidden="true">✓</span>
+      <div>
+        <strong>Use your connected accounts when explicitly needed</strong>
+        <small>Provider credentials remain on the OC server and are never returned to the agent.</small>
+      </div>
+    </div>
+    <p class="oc-oauth-safety-note">Only approve clients you trust. Access tokens expire, refresh tokens rotate, and the MCP client can revoke its session.</p>
+    <div class="oc-oauth-consent-actions">
+      <button id="denyBtn" type="button" class="btn btn-outline-secondary">Cancel</button>
+      <button id="approveBtn" type="button" class="btn btn-primary">Allow access</button>
+    </div>
+    <p id="consentStatus" class="small text-muted mb-0" role="status"></p>
+  </section>
+</main>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2.112.1/dist/umd/supabase.js" integrity="sha384-0x8XPoHt08aHZj+RHs8ojmhZ5IDsTLjPgblgWdriayWriqv9dic3Vkv1K2+UqgZV" crossorigin="anonymous"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/auth.js?v=20260821-mcp-oauth"></script>
+<script>
+(async () => {
+  const requestId = new URLSearchParams(window.location.search).get('request_id') || '';
+  const status = document.getElementById('consentStatus');
+  const summary = document.getElementById('consentSummary');
+  const approve = document.getElementById('approveBtn');
+  const deny = document.getElementById('denyBtn');
+  const apiBase = String(window.OC_AGENT_API_URL || '').replace(/\/$/, '');
+
+  function fail(message){
+    status.textContent = message;
+    approve.disabled = true;
+    deny.disabled = true;
+  }
+
+  if (!requestId) {
+    fail('This authorization request is missing or invalid.');
+    return;
+  }
+
+  const sb = window.OCAuth.getClient();
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session?.access_token) {
+    window.OCAuth.setReturnTo(window.location.href);
+    window.location.replace(`sign-in.html?return_to=${encodeURIComponent(window.location.href)}`);
+    return;
+  }
+
+  try {
+    const response = await fetch(`${apiBase}/oauth/request/${encodeURIComponent(requestId)}`, { headers: { Accept: 'application/json' } });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.detail || 'The authorization request expired.');
+    summary.textContent = `${payload.client_name} is requesting permission to connect to the OpenConstruction MCP server.`;
+  } catch (error) {
+    fail(error.message || 'The authorization request could not be loaded.');
+    return;
+  }
+
+  async function decide(approved){
+    approve.disabled = true;
+    deny.disabled = true;
+    status.textContent = approved ? 'Authorizing client...' : 'Cancelling...';
+    try {
+      const response = await fetch(`${apiBase}/oauth/consent`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ request_id: requestId, approved })
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.redirect_to) throw new Error(payload.error_description || payload.detail || 'Authorization failed.');
+      window.location.replace(payload.redirect_to);
+    } catch (error) {
+      status.textContent = error.message || 'Authorization failed.';
+      approve.disabled = false;
+      deny.disabled = false;
+    }
+  }
+
+  approve.addEventListener('click', () => decide(true));
+  deny.addEventListener('click', () => decide(false));
+})();
+</script>
+</body>
+</html>

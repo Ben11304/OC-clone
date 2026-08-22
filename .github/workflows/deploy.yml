@@ -1,0 +1,102 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [data-repo-update]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Checkout catalog data
+        uses: actions/checkout@v5
+        with:
+          repository: ruoxinx/open-construction-data
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: _catalog-data
+
+      - name: Copy catalog data into site/data
+        run: cp _catalog-data/*.json site/data/
+
+      - name: Debug private repo structure
+        run: ls -la _catalog-data/ && ls -la _catalog-data/img/ 2>/dev/null || echo "No img/ folder found"
+
+      - name: Copy images into site/assets/img
+        run: |
+          if [ -d _catalog-data/img ]; then
+            cp -r _catalog-data/img/. site/assets/img/
+          else
+            echo "WARNING: No img/ folder in private repo"
+          fi
+
+      - name: Validate catalog JSON
+        run: |
+          node -e '
+            const fs = require("fs");
+            for (const file of fs.readdirSync("site/data").filter(name => name.endsWith(".json"))) {
+              const path = `site/data/${file}`;
+              console.log(`validating ${file}`);
+              try {
+                JSON.parse(fs.readFileSync(path, "utf8"));
+              } catch (error) {
+                console.error(`Invalid JSON in ${path}: ${error.message}`);
+                process.exit(1);
+              }
+              console.log(`validated ${file}`);
+            }
+          '
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Generate sitemap
+        run: |
+          node site/scripts/generate-sitemap.mjs
+
+      - name: Archive Pages artifact
+        run: |
+          tar \
+            --directory ./site \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude='.[^/]*' \
+            .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 7
+          if-no-files-found: error
+          overwrite: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
+        with:
+          artifact_name: github-pages

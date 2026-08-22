@@ -1,0 +1,56 @@
+name: Generate AI Catalog
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "*.json"
+      - "scripts/generate_ai_catalog.py"
+      - ".github/workflows/generate-ai-catalog.yml"
+  pull_request:
+    paths:
+      - "*.json"
+      - "scripts/generate_ai_catalog.py"
+      - ".github/workflows/generate-ai-catalog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            *.json
+            scripts/generate_ai_catalog.py
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Generate AI catalog
+        run: python scripts/generate_ai_catalog.py
+
+      - name: Check generated catalog on pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- ai-catalog.json
+
+      - name: Commit generated catalog on main
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chore: update AI catalog"
+          file_pattern: "ai-catalog.json"
+          commit_user_name: "OpenConstruction Bot"
+          commit_user_email: "support@openconstruction.org"
+          commit_author: "OpenConstruction Bot <support@openconstruction.org>"

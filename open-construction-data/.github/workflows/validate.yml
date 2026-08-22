@@ -1,0 +1,41 @@
+name: Validate Catalog Data
+
+on:
+  push:
+    paths:
+      - "*.json"
+      - "validate.py"
+      - ".github/workflows/validate.yml"
+  pull_request:
+    paths:
+      - "*.json"
+      - "validate.py"
+      - ".github/workflows/validate.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            *.json
+            validate.py
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check jsonschema
+
+      - name: Validate catalog JSON
+        run: python validate.py

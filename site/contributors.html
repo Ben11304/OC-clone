@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<meta name="theme-color" content="#0f2e4b">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenConstruction · Community</title>
+  <meta name="description" content="Explore open AEC datasets, models, workflows, benchmarks, tools, schema, and educational resources on OpenConstruction.">
+  <link rel="canonical" href="https://www.openconstruction.org/contributors.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpenConstruction.org">
+  <meta property="og:title" content="OpenConstruction · Community">
+  <meta property="og:description" content="Explore open AEC datasets, models, workflows, benchmarks, tools, schema, and educational resources on OpenConstruction.">
+  <meta property="og:url" content="https://www.openconstruction.org/contributors.html">
+  <meta property="og:image" content="https://www.openconstruction.org/assets/img/icon.png">
+
+  <!-- Bootstrap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/shared-site.css?v=20260819-settings-layout" rel="stylesheet">
+
+  <!-- Leaflet core -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+
+  <style>
+    /* ---------- Design tokens (LIGHT ONLY) ---------- */
+    :root{
+      --oc-bg:#ffffff; --oc-text:#1e2a36; --oc-subtle:#4f5d6c; --oc-border:#e7edf3;
+      --oc-ink:#0f2e4b; --oc-accent:#f2a238; --oc-link:#0b66c3;
+      --oc-card:#ffffff; --oc-shadow:0 8px 24px rgba(15,46,75,.06);
+      --oc-radius:14px; --oc-muted:#f6f9fc; --oc-focus:#86b7fe;
+      --oc-brand-model:#4e6ce8; /* blue used on Home models ring - kept for consistency if needed */
+    }
+    .oc-container{ max-width:1080px; }
+
+    /* Utility highlight (subtle) */
+    .hl{
+      background:linear-gradient(180deg,transparent 60%,rgba(242,162,56,.25) 0);
+      padding:0 .06em; font-weight:700;
+    }
+
+    /* shared shell styles live in assets/css/shared-site.css */
+
+    .hero h1{
+      font-weight:700; letter-spacing:.2px; line-height:1.2;
+      font-size:clamp(1.6rem,1.1rem + 2.2vw,2.2rem);
+      margin:.25rem 0 .35rem;
+    }
+    .hero p.lead{ max-width:78ch; margin:0 auto; color:var(--oc-subtle); }
+
+    /* Metrics */
+    .metrics{
+      display:flex; gap:1.4rem; justify-content:center; align-items:center;
+      flex-wrap:wrap; margin:1.15rem 0 .25rem;
+    }
+    .metric{
+      display:flex; align-items:center; gap:1rem;
+      background:transparent; border:none; border-radius:0; padding:0; box-shadow:none;
+    }
+    .metric svg{ width:120px; height:120px; filter:drop-shadow(0 4px 10px rgba(15,46,75,.08)); }
+    .metric .ring-bg{ stroke:#e7edf3; stroke-width:4; }
+    .metric .ring-val{
+      stroke:var(--oc-accent); stroke-width:4; stroke-linecap:round;
+      stroke-dasharray:0 999; stroke-dashoffset:0;
+    }
+    /* Different colors per circle, uncomment:
+      .metric[data-kind="contributors"] .ring-val{ stroke: var(--oc-accent); }
+      .metric[data-kind="institutions"] .ring-val{ stroke: var(--oc-brand-model); }
+    */
+    .ring-ready .ring-val{ transition:stroke-dashoffset .9s ease; }
+    .metric .label{ display:flex; flex-direction:column; line-height:1.05; }
+    .metric .value{ font-weight:700; color:var(--oc-ink); font-size:1.28rem; }
+    .metric .name{ font-size:.78rem; color:var(--oc-subtle); letter-spacing:.12em; text-transform:uppercase; }
+
+    /* CTAs */
+    .cta-row{ display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:1rem; }
+    .btn-ink{
+      background:var(--oc-ink); color:#fff; border:1px solid var(--oc-ink); border-radius:999px;
+      padding:.55rem 1rem; font-weight:700; text-decoration:none;
+    }
+    .btn-ink:hover{ filter:brightness(1.05); color:#fff; text-decoration:none; }
+    .btn-accent{
+      background:#fff; color:var(--oc-ink); border:1px solid var(--oc-ink); border-radius:999px;
+      padding:.55rem 1rem; font-weight:700; text-decoration:none;
+    }
+    .btn-accent:hover{ background:#f7fbff; text-decoration:none; }
+
+    /* Sections & Cards */
+    .oc-section{ margin-top:34px; }
+    .oc-kicker{ font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:var(--oc-subtle); }
+    .oc-card{ background:var(--oc-card); border:1px solid var(--oc-border); border-radius:var(--oc-radius); box-shadow:var(--oc-shadow); }
+    .oc-card-body{ padding:1.25rem; }
+    .oc-card .oc-card-title{ font-weight:700; color:var(--oc-ink); }
+    .funding-card .oc-card-body{
+      display:flex;
+      align-items:flex-start;
+      gap:1.1rem;
+      padding:1rem 1.05rem;
+    }
+    .funding-card img{
+      width:64px;
+      height:64px;
+      object-fit:contain;
+      flex:0 0 auto;
+      margin-top:.1rem;
+    }
+    .funding-card p{
+      margin:0;
+      color:var(--oc-subtle);
+      font-size:1rem;
+      line-height:1.5;
+    }
+    .funding-card a{
+      font-weight:600;
+      text-decoration:none;
+    }
+    .funding-card a:hover,
+    .funding-card a:focus{
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+    @media (max-width:575.98px){
+      .funding-card .oc-card-body{
+        gap:.75rem;
+      }
+      .funding-card img{
+        width:52px;
+        height:52px;
+      }
+    }
+
+    /* People cards */
+    .person-card{
+      transition:transform .12s ease, box-shadow .12s ease;
+      min-height:100%;
+    }
+    .person-card:hover{ transform:translateY(-1px); }
+    .person-card .card-body{ padding:.82rem .9rem; }
+    .team-card .card-body{ padding:.78rem .86rem; }
+    .person-card .card-body.compact-body{
+      align-items:flex-start;
+      gap:.78rem !important;
+    }
+    .headshot{
+      width:86px; height:86px; object-fit:cover; border-radius:50%;
+      border:2px solid rgba(0,0,0,.03); box-shadow:0 4px 12px rgba(0,0,0,.06); flex:0 0 auto;
+    }
+    .team-card .headshot,
+    .person-card .headshot,
+    .headshot.is-initials{ width:64px; height:64px; }
+    .person-card .headshot.is-logo{
+      object-fit:contain;
+      border-radius:12px;
+      background:#fff;
+      padding:6px;
+    }
+    .person-card .person-meta{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:.24rem;
+      flex:1 1 auto;
+    }
+    .person-card .card-title{
+      margin-bottom:0;
+      font-weight:700;
+      font-size:1.08rem;
+      line-height:1.28;
+    }
+    .person-card .role{
+      font-size:.92rem;
+      color:var(--oc-subtle);
+      margin-bottom:0;
+      line-height:1.4;
+    }
+    .person-card .project-role{
+      font-size:.88rem;
+      line-height:1.35;
+      color:var(--oc-ink);
+      font-weight:600;
+      margin-top:.08rem;
+    }
+    .person-card .affil{
+      font-size:.94rem;
+      line-height:1.42;
+      color:var(--oc-text);
+    }
+    .person-card .card-title,
+    .person-card .role,
+    .person-card .project-role,
+    .person-card .affil{
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .person-card .card-title{ -webkit-line-clamp:2; }
+    .person-card .role,
+    .person-card .project-role,
+    .person-card .affil{ -webkit-line-clamp:2; }
+    .team-card .card-title,
+    .team-card .role,
+    .team-card .project-role,
+    .team-card .affil{
+      display:block;
+      overflow:visible;
+      -webkit-line-clamp:unset;
+    }
+    .section-intro{
+      color:var(--oc-subtle);
+      margin-bottom:1rem;
+      line-height:1.45;
+    }
+    .community-links{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1rem;
+    }
+    .community-links .oc-card-body{ padding:1rem 1.05rem; }
+    .community-links p{
+      margin:0;
+      color:var(--oc-subtle);
+      font-size:.95rem;
+    }
+
+    .monthly-teaser{
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top right, rgba(242,162,56,.18), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #f7fbff 100%);
+      border:1px solid var(--oc-border);
+      border-radius:var(--oc-radius);
+      box-shadow:var(--oc-shadow);
+    }
+    .monthly-teaser::after{
+      content:"";
+      position:absolute;
+      inset:auto -80px -80px auto;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:rgba(15,46,75,.05);
+      pointer-events:none;
+    }
+    .monthly-teaser .card-body{
+      position:relative;
+      padding:1.25rem 1.25rem 1.2rem;
+      z-index:1;
+    }
+    .monthly-teaser-head{
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
+      gap:1.4rem;
+      align-items:start;
+    }
+    .monthly-teaser-copy{
+      display:flex;
+      flex-direction:column;
+      gap:.65rem;
+    }
+    .monthly-teaser-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      padding:.3rem .7rem;
+      border:1px solid #dbe6f0;
+      border-radius:999px;
+      background:#f8fbff;
+      color:var(--oc-ink);
+      font-size:.74rem;
+      font-weight:700;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      align-self:flex-start;
+    }
+    .monthly-teaser-kicker .dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--oc-accent);
+      box-shadow:0 0 0 4px rgba(242,162,56,.16);
+    }
+    .monthly-teaser h2{
+      font-size:clamp(1.35rem, .95rem + 1.6vw, 1.85rem);
+      font-weight:700;
+      letter-spacing:-.02em;
+      line-height:1.15;
+      color:var(--oc-ink);
+      margin:0;
+    }
+    .monthly-teaser-copy p{
+      margin:0;
+      color:var(--oc-subtle);
+      line-height:1.6;
+      max-width:58ch;
+    }
+    .monthly-teaser-side{
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:.65rem;
+    }
+    .monthly-teaser-metrics{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:.7rem;
+    }
+    .monthly-teaser-metric{
+      border:1px solid var(--oc-border);
+      border-radius:14px;
+      background:
+        radial-gradient(circle at top right, rgba(242,162,56,.12), transparent 36%),
+        linear-gradient(180deg, rgba(248,251,255,.95) 0%, rgba(255,255,255,1) 100%);
+      padding:.85rem .9rem;
+      text-align:left;
+    }
+    .monthly-teaser-metric::before{
+      content:"";
+      display:block;
+      width:28px;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--oc-accent),rgba(242,162,56,.15));
+      margin-bottom:.55rem;
+    }
+    .monthly-teaser-metric span{
+      display:block;
+      margin-bottom:.3rem;
+      color:var(--oc-subtle);
+      font-size:.7rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:700;
+    }
+    .monthly-teaser-metric strong{
+      display:block;
+      color:var(--oc-ink);
+      font-size:1.35rem;
+      font-weight:700;
+      line-height:1.1;
+    }
+    .monthly-teaser-note{
+      color:var(--oc-subtle);
+      font-size:.82rem;
+      line-height:1.5;
+      margin:.65rem 0 0;
+    }
+    .monthly-teaser-footer{
+      display:flex;
+      justify-content:flex-start;
+      flex-wrap:wrap;
+      gap:.55rem;
+      margin-top:1rem;
+    }
+    .monthly-action-link{
+      display:inline-flex;
+      align-items:center;
+      gap:.38rem;
+      min-height:34px;
+      padding:.44rem .72rem;
+      border:1px solid rgba(242,162,56,.42);
+      border-radius:999px;
+      background:rgba(255,255,255,.78);
+      color:var(--oc-ink);
+      font-size:.86rem;
+      font-weight:500;
+      line-height:1.2;
+      text-decoration:none;
+    }
+    .monthly-action-link.primary{
+      border-color:rgba(242,162,56,.88);
+      background:var(--oc-accent);
+      color:#112b45;
+      font-weight:600;
+      box-shadow:0 8px 18px rgba(242,162,56,.18);
+    }
+    .monthly-action-link span[aria-hidden="true"]{
+      color:inherit;
+      opacity:.82;
+    }
+    .monthly-action-link:hover,
+    .monthly-action-link:focus{
+      background:rgba(242,162,56,.14);
+      border-color:rgba(242,162,56,.82);
+      color:var(--oc-ink);
+      text-decoration:none;
+    }
+    .monthly-action-link.primary:hover,
+    .monthly-action-link.primary:focus{
+      background:#e99623;
+      border-color:#e99623;
+      color:#10243a;
+    }
+
+    /* Logo wall */
+    .logo-wall{
+      display:grid; gap:22px; align-items:center; justify-items:center;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      padding:8px 6px; border:1px solid var(--oc-border); border-radius:var(--oc-radius); background:#fff;
+    }
+    .logo-wall img{ max-height:60px; width:auto; display:block; object-fit:contain; filter:grayscale(8%); transition:transform .16s ease; }
+    .logo-wall img:hover{ transform:scale(1.03); }
+
+    /* Map */
+    .reach-card{
+      background:#fff;
+      border:1px solid var(--oc-border);
+      border-radius:var(--oc-radius);
+      box-shadow:var(--oc-shadow);
+      overflow:hidden;
+    }
+    .reach-map-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+      padding:1rem 1.15rem .8rem;
+      border-bottom:1px solid var(--oc-border);
+      background:linear-gradient(180deg,#fff,#fbfdff);
+    }
+    .reach-note{
+      color:var(--oc-subtle);
+      font-size:.92rem;
+      margin:0;
+    }
+    .reach-footnote{
+      padding:.85rem 1.15rem 1rem;
+      border-top:1px solid var(--oc-border);
+      color:var(--oc-subtle);
+      font-size:.9rem;
+      background:#fff;
+    }
+    #visitorMap{
+      height:clamp(320px, 44vw, 460px);
+      border-radius:0;
+      border:0;
+      box-shadow:none;
+    }
+
+    /* Focus */
+    :focus-visible{ outline:2px solid var(--oc-focus); outline-offset:2px; border-radius:6px; }
+
+    @media (max-width: 991.98px){
+      .navbar-brand .brand-wordmark{ font-size:1.15rem; }
+      .hero .content{ padding:40px 0 32px; }
+    }
+	
+	.logo-marquee {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--oc-border);
+	border-radius: var(--oc-radius);
+	background: #fff;
+	box-shadow: var(--oc-shadow);
+	display: grid;
+	gap: 4px;
+	padding: 8px 0;
+	}
+
+	.row-marquee { position: relative; overflow: hidden; }
+
+	.logo-track {
+	display: flex;
+	align-items: center;
+	gap: 28px;
+	padding: 6px 12px;
+	width: max-content;
+	will-change: transform;
+	}
+	.logo-marquee:hover .logo-track { animation-play-state: paused; }
+
+	.logo {
+	flex: 0 0 auto;
+	display: grid;
+	place-items: center;
+	height: 84px;
+	width: 168px;
+	overflow: hidden;
+	position: relative;
+	}
+	.logo::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, #f6f8fb 0%, #eef3f8 50%, #f6f8fb 100%);
+	background-size: 200% 100%;
+	animation: oc-skeleton 1.2s ease-in-out infinite;
+	}
+	.logo.loaded::before { opacity: 0; transition: opacity .2s ease; }
+
+	.logo img {
+	max-height: 60px;
+	max-width: 150px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	filter: grayscale(8%);
+	transition: transform .16s ease, opacity .2s ease;
+	display: block;
+	opacity: 0;
+	}
+	.logo.loaded img { opacity: 1; }
+	.logo img:hover { transform: scale(1.03); }
+
+	@media (min-width: 992px) {
+	.logo { height: 92px; width: 184px; }
+	.logo img { max-height: 66px; max-width: 160px; }
+	}
+
+	@keyframes oc-marquee-left {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+	}
+	@keyframes oc-marquee-right {
+	from { transform: translateX(-50%); }
+	to { transform: translateX(0); }
+	}
+	@keyframes oc-skeleton {
+	0% { background-position: 0% 0; }
+	100% { background-position: 200% 0; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+	.logo-track { animation: none; }
+	}
+
+    @media (max-width: 767.98px){
+      .metrics{gap:1rem}
+      .metric{gap:.75rem}
+      .metric svg{width:94px;height:94px}
+      .monthly-teaser-head{grid-template-columns:1fr;gap:1.1rem}
+      .monthly-teaser-side{align-items:stretch}
+      .monthly-teaser-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+      .monthly-teaser-metric{padding:.7rem .65rem}
+      .monthly-teaser-metric strong{font-size:1.15rem}
+      .logo{width:132px;height:72px}
+      .logo img{max-width:118px;max-height:50px}
+      .reach-map-head{padding:.9rem 1rem .75rem}
+      .reach-note,
+      .reach-footnote{font-size:.88rem}
+      #visitorMap{height:300px}
+      .community-links{grid-template-columns:1fr}
+      .team-card .card-body{padding:.9rem}
+    }
+  </style>
+
+  <style>
+    .occ-carousel{ position:relative; background:#fff; border:1px solid var(--oc-border);
+      border-radius:var(--oc-radius); box-shadow:var(--oc-shadow); padding:14px 14px 12px; }
+    .occ-viewport{
+      overflow:hidden;
+      border-radius:calc(var(--oc-radius) - 4px);
+      padding-inline:2px;
+    }
+    .occ-track{ display:flex; gap:0; will-change:transform; }
+    .occ-slide{ flex:0 0 100%; padding:2px; }
+    .occ-btn{ position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+      width:40px; height:40px; border-radius:999px; border:1px solid rgba(231,237,243,.95);
+      background:rgba(255,255,255,.96); box-shadow:0 10px 22px rgba(15,46,75,.12); font-weight:700; color:var(--oc-ink);
+      display:grid; place-items:center; line-height:1; }
+    .occ-btn:hover{ filter:brightness(1.02); }
+    .occ-btn.prev{ left:10px; } .occ-btn.next{ right:10px; }
+    .occ-btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+    .occ-dots{ display:flex; gap:8px; justify-content:center; }
+    .occ-dots button{ width:10px; height:10px; border-radius:999px; border:0; background:#d9e3ee; }
+    .occ-dots button[aria-selected="true"]{ background:var(--oc-accent); width:28px; border-radius:8px; }
+    .occ-progress{ height:6px; background:#eef3f8; border-radius:999px; overflow:hidden; }
+    .occ-progress .bar{ height:100%; width:0%; background:var(--oc-ink); opacity:.25; }
+    .headshot.is-initials{
+      display:grid; place-items:center; width:64px; height:64px; border-radius:50%;
+      background:#eef3f8; color:var(--oc-ink); font-weight:700; font-size:1rem;
+      border:2px solid rgba(0,0,0,.03); box-shadow:0 4px 12px rgba(0,0,0,.06);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white sticky-top oc-nav">
+  <div class="container oc-container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="assets/img/icon.png" alt="OpenConstruction logo" class="oc-logo">
+    <span class="brand-wordmark">
+      <span class="oc-open">OpenConstruction</span>
+      <span class="oc-construction">Open Science</span>
+    </span>
+
+    </a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <li class="nav-item"><a class="nav-link plain" href="index.html" data-route="index">Home</a></li>
+		<li class="nav-item dropdown">
+          <a class="nav-link plain dropdown-toggle" href="#" id="ddLibraries" role="button" data-bs-toggle="dropdown" aria-expanded="false">Libraries</a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddLibraries">
+            <li><a class="dropdown-item" href="dataset.html">Datasets</a></li>
+            <li><a class="dropdown-item" href="models.html">Models</a></li>
+            <li><a class="dropdown-item" href="deployments.html">Workflows</a></li>
+			<li><a class="dropdown-item" href="oer.html">OERs</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link plain" href="benchmarks.html" data-route="benchmarks">Benchmarks</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link plain dropdown-toggle" href="#" id="ddResourcesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Docs</a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddResourcesMenu">
+            <li><a class="dropdown-item" href="schema.html">Schema</a></li>
+            <li><a class="dropdown-item" href="tools.html">Tools</a></li>
+            <li><a class="dropdown-item" href="guides.html">Guides</a></li>
+            <li><a class="dropdown-item" href="mcp.html">API &amp; MCP</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link plain" href="contribute.html" data-route="contribute">Contribute</a></li>
+        <li class="nav-item"><a class="nav-link plain active" href="contributors.html" data-route="contributors">Community</a></li>
+<li class="nav-item" id="ocAuthNavItem"><div class="oc-auth-actions"><a class="nav-link plain oc-auth-login-link" href="auth/sign-in.html?mode=login" rel="nofollow">Log in</a><a class="nav-link plain oc-auth-signup-link" href="auth/sign-in.html?mode=signup" rel="nofollow">Sign up</a></div></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container oc-container content">
+    <h1>Meet the OpenConstruction Community</h1>
+
+    <!-- Metric circles -->
+    <div class="metrics" id="communityMetrics" role="group" aria-label="Community statistics">
+      <!-- Contributors -->
+		<div class="metric" data-kind="contributors">
+		  <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+			<circle class="ring-bg" cx="22" cy="22" r="17" fill="none"></circle>
+			<circle class="ring-val" id="ringContrib" cx="22" cy="22" r="17" fill="none"
+					transform="rotate(-90 22 22)"></circle>
+
+			<!-- Group of users -->
+			<g transform="translate(22 22) scale(0.85) translate(-12 -12)"
+			   fill="none" stroke="currentColor" stroke-width="1.2"
+			   stroke-linecap="round" stroke-linejoin="round">
+			  <!-- Heads -->
+			  <circle cx="12" cy="7"  r="3"></circle>
+			  <circle cx="6"  cy="9"  r="2.2"></circle>
+			  <circle cx="18" cy="9"  r="2.2"></circle>
+			  <!-- Shoulders -->
+			  <path d="M4 17c2.8-2.8 7-4 8-4s5.2 1.2 8 4"></path>
+			  <path d="M1.5 16.5c1.7-2 3.8-3 6-3"></path>
+			  <path d="M22.5 16.5c-1.7-2-3.8-3-6-3"></path>
+			</g>
+		  </svg>
+		  <span class="label">
+			<span class="value" id="countContrib">&mdash;</span>
+			<span class="name">Contributors/Labs</span>
+		  </span>
+		</div>
+
+		<!-- Institutions -->
+		<div class="metric" data-kind="institutions">
+		  <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+			<circle class="ring-bg" cx="22" cy="22" r="17" fill="none"></circle>
+			<circle class="ring-val" id="ringInst" cx="22" cy="22" r="17" fill="none"
+					transform="rotate(-90 22 22)"></circle>
+
+			<!-- Classical building -->
+			<g transform="translate(22 22) scale(0.85) translate(-12 -12)"
+			   fill="none" stroke="currentColor" stroke-width="1.2"
+			   stroke-linecap="round" stroke-linejoin="round">
+			  <!-- Roof / pediment -->
+			  <path d="M12 3 L22 7.5 H2 L12 3 Z"></path>
+			  <!-- Architrave -->
+			  <path d="M3 8 H21"></path>
+			  <!-- Columns -->
+			  <path d="M6 8 V17"></path>
+			  <path d="M12 8 V17"></path>
+			  <path d="M18 8 V17"></path>
+			  <!-- Base -->
+			  <path d="M1.5 18 H22.5"></path>
+			  <path d="M0.5 19.5 H23.5"></path>
+			</g>
+		  </svg>
+		  <span class="label">
+			<span class="value" id="countInst">&mdash;</span>
+			<span class="name">Institutions</span>
+		  </span>
+		</div>
+		</div>
+
+    <!-- CTA buttons -->
+    <div class="cta-row">
+      <a class="btn-ink btn-sm" href="contribute.html">Contribute a Resource</a>
+      <a class="btn-accent btn-sm" href="monthly-highlights.html">Community digest</a>
+	  <button type="button" class="btn-accent btn-sm" data-bs-toggle="modal" data-bs-target="#subscribeModal">Subscribe for updates</button>
+    </div>
+
+  </div>
+</header>
+
+<main class="container oc-container">
+  <section class="oc-section" id="community-monthly">
+    <div class="monthly-teaser">
+      <div class="card-body">
+        <div class="monthly-teaser-head">
+          <div class="monthly-teaser-copy">
+            <div class="monthly-teaser-kicker">
+              <span class="dot" aria-hidden="true"></span>
+              <span id="communityMonthlyKicker">This Month</span>
+            </div>
+            <h2 id="communityMonthlyHeading">New datasets, models, and contributors</h2>
+            <p id="communityMonthlySummary">A monthly digest of what just landed in the OpenConstruction catalog &mdash; the datasets, models, and people behind them.</p>
+            <div class="monthly-teaser-footer" aria-label="Monthly digest actions">
+              <a class="monthly-action-link primary" href="monthly-highlights.html">View community digest <span aria-hidden="true">&rarr;</span></a>
+              <a class="monthly-action-link" href="https://www.linkedin.com/company/openconstruction-open-science-initiative/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+          <div class="monthly-teaser-side">
+            <div class="monthly-teaser-metrics" id="communityMonthlyStats" aria-label="Monthly community activity">
+              <div class="monthly-teaser-metric">
+                <span>Datasets</span>
+                <strong>&mdash;</strong>
+              </div>
+              <div class="monthly-teaser-metric">
+                <span>Models</span>
+                <strong>&mdash;</strong>
+              </div>
+              <div class="monthly-teaser-metric">
+                <span>Contributors</span>
+                <strong>&mdash;</strong>
+              </div>
+            </div>
+            <p class="monthly-teaser-note">Counts reflect resources added in this month.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Team -->
+  <section class="oc-section">
+    <div class="oc-kicker mb-2">Core Team</div>
+    <div class="row g-4">
+      <!-- 1 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/ruoxin-xiong.jpg" alt="Headshot of Ruoxin Xiong">
+            <div>
+              <h5 class="card-title">Ruoxin Xiong, Ph.D.</h5>
+              <div class="role">Assistant Professor</div>
+              <div class="project-role">Technical lead and core developer</div>
+              <div class="affil">College of Architecture &amp; Environmental Design, Kent State University (Ohio, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/yanyu-wang.jpg" alt="Headshot of Yanyu Wang">
+            <div>
+              <h5 class="card-title">Yanyu Wang, Ph.D.</h5>
+              <div class="role">Assistant Professor</div>
+              <div class="affil">Bert S. Turner Department of Construction Management, Louisiana State University (Louisiana, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/jiannan-cai.jpg" alt="Headshot of Jiannan Cai">
+            <div>
+              <h5 class="card-title">Jiannan Cai, Ph.D.</h5>
+              <div class="role">Assistant Professor</div>
+              <div class="affil">School of Civil and Environmental Engineering, and Construction Management, The University of Texas at San Antonio (Texas, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 4 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/kaijian-liu.jpg" alt="Headshot of Kaijian Liu">
+            <div>
+              <h5 class="card-title">Kaijian Liu, Ph.D.</h5>
+              <div class="role">Assistant Professor</div>
+              <div class="affil">Department of Civil, Environmental and Ocean Engineering, Stevens Institute of Technology (New Jersey, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 5 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/yuansheng-zhu.jpg" alt="Headshot of Yuansheng Zhu">
+            <div>
+              <h5 class="card-title">Yuansheng Zhu</h5>
+              <div class="role">Researcher</div>
+              <div class="affil">Golisano College of Computing and Information Sciences, Rochester Institute of Technology (New York, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 6 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/pingbo-tang.jpg" alt="Headshot of Pingbo Tang">
+            <div>
+              <h5 class="card-title">Pingbo Tang, Ph.D.</h5>
+              <div class="role">Associate Professor</div>
+              <div class="affil">Department of Civil and Environmental Engineering, Carnegie Mellon University (Pennsylvania, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 7 -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card oc-card person-card team-card h-100">
+          <div class="card-body d-flex gap-3">
+            <img class="headshot" src="assets/img/contributors/nora-el-gohary.jpg" alt="Headshot of Nora El-Gohary">
+            <div>
+              <h5 class="card-title">Nora El-Gohary, Ph.D.</h5>
+              <div class="role">Professor</div>
+              <div class="affil">Department of Civil and Environmental Engineering, University of Illinois Urbana-Champaign (Illinois, USA)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Contributors -->
+  <section class="oc-section">
+    <div class="oc-kicker mb-2">Contributors/Labs</div>
+
+    <div class="occ-carousel" id="occContrib" aria-roledescription="carousel">
+      <button class="occ-btn prev" aria-label="Previous page" title="Previous">&#8249;</button>
+
+      <div class="occ-viewport" aria-live="polite">
+        <!-- Cards are injected from data/contributors.json -->
+        <div class="row g-3" id="contributorsGrid"></div>
+      </div>
+
+      <button class="occ-btn next" aria-label="Next page" title="Next">&#8250;</button>
+
+      <div class="occ-dots mt-2" id="occDots" role="tablist" aria-label="Contributors pages"></div>
+      <div class="occ-progress mt-1" aria-hidden="true"><div class="bar" id="occBar"></div></div>
+    </div>
+  </section>
+
+<section class="oc-section">
+  <div class="oc-kicker mb-2">Contributor Affiliations</div>
+
+  <div class="logo-marquee three-rows" id="communityInstitutionMarquee" aria-label="Institutions and organizations listed by contributors">
+
+    <div class="row-marquee" data-direction="right">
+      <div class="logo-track" role="list" data-speed="45"></div>
+    </div>
+
+    <div class="row-marquee" data-direction="left">
+      <div class="logo-track" role="list" data-speed="45"></div>
+    </div>
+
+    <div class="row-marquee" data-direction="right">
+      <div class="logo-track" role="list" data-speed="45"></div>
+    </div>
+
+  </div>
+
+  <p class="small text-muted mt-2 mb-0">Contributor affiliations shown here do not imply institutional endorsement, sponsorship, or partnership.</p>
+
+	</section>
+
+  <section class="oc-section" aria-labelledby="funding-heading">
+    <div class="oc-kicker mb-2" id="funding-heading">Funding</div>
+    <div class="oc-card funding-card">
+      <div class="oc-card-body">
+        <img src="assets/img/nsf-logo.png" alt="U.S. National Science Foundation logo" width="64" height="64" loading="lazy">
+        <div>
+          <p>This material is supported by the U.S. National Science Foundation under <a href="https://www.nsf.gov/awardsearch/show-award?AWD_ID=2612086" target="_blank" rel="noopener">Award No. 2612086</a>. Any opinions, findings, conclusions, or recommendations expressed in this material do not necessarily reflect the views of the U.S. National Science Foundation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oc-section">
+    <div class="oc-kicker mb-2">Collaborate</div>
+    <div class="community-links">
+      <div class="oc-card h-100">
+        <div class="oc-card-body">
+          <h3 class="oc-card-title h6 mb-2">Contribute a Resource</h3>
+          <p>Use the <a href="contribute.html">Contribute page</a> to propose a dataset, model, workflow, OER, tool, or metadata improvement.</p>
+        </div>
+      </div>
+      <div class="oc-card h-100">
+        <div class="oc-card-body">
+          <h3 class="oc-card-title h6 mb-2">Collaborate With Us</h3>
+          <p>For collaborations or partnership conversations, email <a href="mailto:support@openconstruction.org">support@openconstruction.org</a> or follow OpenConstruction on <a href="https://www.linkedin.com/company/openconstruction-open-science-initiative/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+        </div>
+      </div>
+      <div class="oc-card h-100">
+        <div class="oc-card-body">
+          <h3 class="oc-card-title h6 mb-2">Feedback &amp; Ideas</h3>
+          <p>Share platform feedback and roadmap suggestions through the OpenConstruction workspace or email <a href="mailto:support@openconstruction.org">support@openconstruction.org</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visitors (heatmap) -->
+  <section class="oc-section mb-5" id="visitorMapSection">
+    <div class="reach-card">
+      <div class="reach-map-head">
+        <div>
+          <div class="oc-kicker">Platform Reach</div>
+        </div>
+      </div>
+      <div id="visitorMap" aria-label="Platform reach map"></div>
+      <div class="reach-footnote">Aggregated, privacy-preserving visit locations inferred from anonymized homepage traffic. No raw IP addresses are stored.</div>
+    </div>
+  </section>
+</main>
+
+<footer class="py-4 mt-3 oc-site-footer">
+  <div class="container oc-container small text-muted text-center">
+    <div>
+      <img src="assets/img/icon.png" alt="OpenConstruction logo" width="24" height="24" style="vertical-align:-5px; margin-right:4px;"> &copy; <span id="yearNow"></span> OpenConstruction Open Science Initiative
+    </div>
+    <div class="mt-1">
+      <small>
+        <a href="contribute.html#terms" class="text-muted">Terms</a> &middot;
+        <a href="contribute.html#privacy" class="text-muted">Data &amp; Privacy</a> &middot;
+        <a href="contribute.html#citation" class="text-muted">Citation</a>
+      </small>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/institutions.js"></script>
+
+<script>
+(function(){
+const api = window.OpenConstructionInstitutions;
+const marquee = document.getElementById('communityInstitutionMarquee');
+if (!api || !marquee) return;
+
+api.renderInstitutionMarquee({
+  target: marquee,
+  url: 'data/institutions.json',
+  speed: 46
+}).catch(() => {});
+})();
+</script>
+
+<!-- Leaflet core -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+
+<!-- Heatmap plugin -->
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<!-- Supabase client -->
+<script src="https://unpkg.com/@supabase/supabase-js@2.112.1/dist/umd/supabase.js" integrity="sha384-0x8XPoHt08aHZj+RHs8ojmhZ5IDsTLjPgblgWdriayWriqv9dic3Vkv1K2+UqgZV" crossorigin="anonymous"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js?v=20260819-auth-cta-balance"></script>
+<script src="assets/js/site-shell.js?v=20260819-account-menu-polish"></script>
+
+<style>
+  /* Optional: soft ocean background to avoid gray gaps */
+  #visitorMap.leaflet-container {
+    background: #cfe7ef;
+  }
+</style>
+
+<!-- Render homepage history as heatmap -->
+<script>
+(async function(){
+  const PAGE_TO_SHOW = 'index'; // showing homepage visits
+
+  // Map
+  const map = L.map('visitorMap', {
+    zoomControl: true,
+    minZoom: 2,
+    maxBounds: L.latLngBounds([[-85, -180], [85, 180]]), // clamp to world bounds
+    maxBoundsViscosity: 1.0,                             // resist leaving bounds
+    worldCopyJump: false                                 // no duplicate jump
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    noWrap: true,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  }).addTo(map);
+
+  map.setView([39.5, -98.35], 3);
+  setTimeout(() => map.invalidateSize(), 0);
+
+  // Supabase
+  const sb = window.OCAuth?.getClient?.() || (
+    window.SUPABASE_URL && window.SUPABASE_ANON_KEY && window.supabase?.createClient
+      ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
+          auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false,
+            storageKey: 'oc-contributors-heatmap-auth-token'
+          }
+        })
+      : null
+  );
+  if (!sb) { console.warn('Supabase not configured; skipping heatmap'); return; }
+
+  try {
+    const pageSize = 1000;
+    let from = 0, to = pageSize - 1;
+    const bounds = L.latLngBounds();
+    const heatPoints = [];
+
+    while (true) {
+      const { data: rows, error } = await sb
+        .from('visits')
+        .select('lat,lon')
+        .eq('page', PAGE_TO_SHOW)
+        .order('created_at', { ascending:false })
+        .range(from, to);
+
+      if (error) { console.error(error); break; }
+      if (!rows || rows.length === 0) break;
+
+      for (const r of rows) {
+        if (typeof r.lat === 'number' && typeof r.lon === 'number') {
+          heatPoints.push([r.lat, r.lon, 1]);
+          bounds.extend([r.lat, r.lon]);
+        }
+      }
+      if (rows.length < pageSize) break;
+      from += pageSize; to += pageSize;
+    }
+
+    L.heatLayer(heatPoints, { radius:20, blur:15, maxZoom:11 }).addTo(map);
+
+    if (bounds.isValid()) {
+      map.fitBounds(bounds.pad(0.2));
+    } else {
+      map.setView([20,0], 2);
+    }
+  } catch (e) {
+    console.error('Heatmap render failed:', e);
+  }
+})();
+</script>
+
+<!-- Community metric circles-->
+<script>
+(() => {
+  const countContribEl = document.getElementById("countContrib");
+  const countInstEl    = document.getElementById("countInst");
+
+  const ringContrib = document.getElementById("ringContrib");
+  const ringInst    = document.getElementById("ringInst");
+  const metricsWrap = document.getElementById("communityMetrics");
+
+  const R = 17;
+  const CIRC = 2 * Math.PI * R;
+
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+  function countUp(el, to, duration = 1200) {
+    if (!el) return;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - start) / duration);
+      el.textContent = Math.round(to * easeOut(t));
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initRing(ring) {
+    if (!ring) return;
+    ring.style.strokeDasharray = String(CIRC);
+    ring.style.strokeDashoffset = String(CIRC);
+  }
+
+  function playRing(ring, durationMs = 1400) {
+    if (!ring) return;
+    // ensure transition is applied
+    ring.style.transition = `stroke-dashoffset ${durationMs}ms ease`;
+    requestAnimationFrame(() => {
+      ring.style.strokeDashoffset = "0";
+    });
+  }
+
+  async function countInstitutionsFromJSON() {
+    const api = window.OpenConstructionInstitutions;
+    if (!api || typeof api.loadInstitutions !== "function") return 0;
+    const data = await api.loadInstitutions('data/institutions.json');
+    return data.length;
+  }
+
+  async function countContributorsFromJSON() {
+    // Use absolute path so refresh in subpaths never breaks
+    const base = new URL('.', location.href);
+    const url = new URL('data/contributors.json', base).toString();
+
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("Cannot load contributors.json");
+    const data = await res.json();
+    return Array.isArray(data) ? data.length + 7 : 7; // keep your +7 behavior
+  }
+
+  async function run() {
+    initRing(ringContrib);
+    initRing(ringInst);
+
+    let institutions = 0;
+    let contributors = 0;
+    try {
+      institutions = await countInstitutionsFromJSON();
+      contributors = await countContributorsFromJSON();
+    } catch (e) {
+      console.warn("[stats] community stats error:", e);
+    }
+
+    // Set numbers
+    if (countContribEl) countContribEl.textContent = String(contributors);
+    if (countInstEl)    countInstEl.textContent    = String(institutions);
+
+    // Make sure ring transition is enabled
+    metricsWrap?.classList.add("ring-ready");
+
+    // Animate
+    setTimeout(() => {
+      countUp(countContribEl, contributors, 1400);
+      countUp(countInstEl, institutions, 1400);
+      playRing(ringContrib, 1400);
+      playRing(ringInst, 1400);
+    }, 60);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run, { once: true });
+  } else {
+    run();
+  }
+})();
+</script>
+
+
+
+<!-- Subscribe Modal -->
+<div class="modal fade" id="subscribeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+    <div class="modal-content p-3 rounded-3 shadow">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="m-0 fw-semibold">Subscribe</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="https://github.us5.list-manage.com/subscribe/post?u=12fa0b9a59e8110ba3a89fc76&amp;id=696e3eb0b3&amp;f_id=006fbeedf0" 
+            method="post" target="_blank" rel="noopener noreferrer" novalidate>
+        <label for="sub-email" class="form-label small text-muted mb-1">Email</label>
+        <input type="email" id="sub-email" name="EMAIL" class="form-control mb-2"
+               placeholder="you@university.edu" required>
+        <button type="submit" class="btn btn-primary w-100 mt-2">Subscribe</button>
+        <div style="position:absolute; left:-5000px" aria-hidden="true">
+          <input type="text" name="b_12fa0b9a59e8110ba3a89fc76_696e3eb0b3" tabindex="-1" value="">
+        </div>
+        <p class="small text-muted mt-2 mb-0">We'll email only when new datasets or models are added. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Contributors JSON loader + carousel -->
+<script>
+(async function(){
+  const JSON_URL = 'data/contributors.json';
+  const GRID_ID  = 'contributorsGrid';
+  const WRAP_ID  = 'occContrib';
+  const DOTS_ID  = 'occDots';
+  const BAR_ID   = 'occBar';
+  const URL_PARAM= 'cpage';
+
+  // Page size here means how many cards per slide (not visual size).
+  // Using 9 => up to a 3x3 grid per page on desktop, preserving your card sizing/layout.
+  const PAGE_SIZE_DESKTOP = 9;
+
+  const $wrap = document.getElementById(WRAP_ID);
+  const $grid = document.getElementById(GRID_ID);
+  const $dots = document.getElementById(DOTS_ID);
+  const $bar  = document.getElementById(BAR_ID);
+  if(!$wrap || !$grid) return;
+  const viewport = $wrap.querySelector('.occ-viewport');
+
+  const byLastKey = n => {
+    if(!n) return ''; const s = n.trim();
+    if(s.includes(',')) return s.toLowerCase();
+    const parts = s.split(/\s+/); return (parts[parts.length-1] + ' ' + s).toLowerCase();
+  };
+  const chunk = (a,n)=>{ const o=[]; for(let i=0;i<a.length;i+=n) o.push(a.slice(i,i+n)); return o; };
+  const urlPage = ()=>{ const u=new URL(location.href); const p=parseInt(u.searchParams.get(URL_PARAM),10); return (isFinite(p)&&p>=1)?p:1; };
+  const setUrlPage = p=>{ const u=new URL(location.href); u.searchParams.set(URL_PARAM,String(p)); history.replaceState(null,'',u); };
+  const initials = name => (name||'OC').trim().split(/\s+/).slice(0,2).map(s=>s[0]?.toUpperCase()||'').join('');
+  const esc = value => String(value ?? '')
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'","&#39;");
+
+  function cardHTML(c){
+    const isOrg = String(c.type || '').toLowerCase() === 'org';
+    const imageAlt = isOrg ? `${c.name || 'Organization'} logo` : '';
+    const img = c.image ? `<img class="headshot${isOrg ? ' is-logo' : ''}" src="${c.image}" alt="${esc(imageAlt)}">`
+                        : `<div class="headshot is-initials">${initials(c.name)}</div>`;
+    const body = `<div class="card oc-card person-card h-100">
+        <div class="card-body compact-body d-flex">${img}
+          <div class="person-meta"><h5 class="card-title">${c.name||''}</h5>
+          <div class="role">${c.role||''}</div>
+          <div class="affil">${c.affiliation||''}</div></div></div></div>`;
+    return c.link_url
+      ? `<div class="col-md-6 col-xl-4"><a class="text-decoration-none" href="${c.link_url}" target="_blank" rel="noopener">${body}</a></div>`
+      : `<div class="col-md-6 col-xl-4">${body}</div>`;
+  }
+
+  let rows=[];
+  try{
+    const res=await fetch(JSON_URL,{cache:'no-store'});
+    if(!res.ok) throw new Error('Failed to fetch contributors.json');
+    rows = await res.json();
+  }catch(e){
+    console.error(e);
+    $grid.innerHTML = '<p class="text-muted">Could not load contributors.</p>';
+    return;
+  }
+
+  const people = rows.filter(r=>(r.type||'person')!=='org').sort((a,b)=>byLastKey(a.name).localeCompare(byLastKey(b.name)));
+  const orgs   = rows.filter(r=>(r.type||'person')==='org').sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  const DATA   = people.concat(orgs);
+
+  $grid.innerHTML = DATA.map(cardHTML).join('');
+  const nodes = Array.from($grid.children);
+  $grid.remove();
+
+  const track = document.createElement('div'); track.className='occ-track'; viewport.appendChild(track);
+  let slides=[], current=Math.max(1, urlPage());
+
+  function buildDots(){
+    if(!$dots) return; $dots.innerHTML='';
+    slides.forEach((_,i)=>{
+      const b=document.createElement('button');
+      b.type='button'; b.setAttribute('role','tab'); b.setAttribute('aria-label',`Page ${i+1}`);
+      if(i+1===current) b.setAttribute('aria-selected','true');
+      b.addEventListener('click',()=>goTo(i+1,true));
+      $dots.appendChild(b);
+    });
+  }
+  function updateDots(){
+    if(!$dots) return;
+    Array.from($dots.children).forEach((b,i)=>{
+      if(i+1===current) b.setAttribute('aria-selected','true'); else b.removeAttribute('aria-selected');
+    });
+  }
+  function updateBar(){
+    if(!$bar) return;
+    const total=Math.max(1,slides.length);
+    const pct=((current-1)/(total-1||1))*100;
+    $bar.style.width = (total===1 ? '100%' : pct + '%');
+  }
+  function goTo(page, animate=true){
+    current = Math.max(1, Math.min(page, slides.length||1));
+    const xPct = (current-1) * -100;
+    track.style.transition = animate ? 'transform .35s ease' : 'none';
+    track.style.transform  = `translateX(${xPct}%)`;
+    setUrlPage(current); updateDots(); updateBar();
+  }
+
+  function buildSlides(){
+    track.innerHTML=''; slides=[];
+    // Fixed desktop page size 9 to keep your 3x3 feel; Bootstrap will handle smaller screens naturally.
+    const groups = chunk(nodes, PAGE_SIZE_DESKTOP);
+    groups.forEach(g=>{
+      const s=document.createElement('div'); s.className='occ-slide';
+      const r=document.createElement('div'); r.className='row g-3';
+      g.forEach(n=>r.appendChild(n)); s.appendChild(r); track.appendChild(s); slides.push(s);
+    });
+    buildDots(); goTo(Math.min(current, slides.length) || 1, false);
+  }
+
+  $wrap.querySelector('.occ-btn.prev')?.addEventListener('click',()=>goTo(current-1,true));
+  $wrap.querySelector('.occ-btn.next')?.addEventListener('click',()=>goTo(current+1,true));
+
+  // drag/swipe
+(function enableDrag(){
+    let down = false, startX = 0, startTx = 0, isDragging = false;
+
+    const viewport = document.querySelector('#occContrib .occ-viewport');
+    const track    = document.querySelector('#occContrib .occ-track');
+
+    if (!viewport || !track) return;
+
+    const getTx = () => {
+      const m = (track.style.transform || '').match(/translateX\((-?\d+(?:\.\d+)?)%\)/);
+      return m ? parseFloat(m[1]) : 0;
+    };
+
+    track.addEventListener('pointerdown', e => {
+      // Don't hijack clicks on links, buttons, inputs, etc.
+      if (e.button !== 0) return; // left button only
+      if (e.target.closest('a, button, input, textarea, select, label')) return;
+
+      down = true;
+      isDragging = false;
+      startX = e.clientX;
+      startTx = getTx();
+      track.setPointerCapture(e.pointerId);
+      track.style.transition = 'none';
+    });
+
+    track.addEventListener('pointermove', e => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+
+      // If the user moves more than a few pixels, treat it as a drag
+      if (Math.abs(dx) > 5) isDragging = true;
+
+      const pct = (dx / viewport.clientWidth) * 100;
+      track.style.transform = `translateX(${startTx + pct}%)`;
+    });
+
+    function endDrag(e){
+      if (!down) return;
+      down = false;
+
+      try { track.releasePointerCapture(e.pointerId); } catch {}
+
+      // Snap to the nearest slide only if it was actually a drag
+      if (isDragging) {
+        const tx = getTx();
+        const idx = Math.round(-tx / 100) + 1;
+        // goTo is already in scope from your script
+        window.requestAnimationFrame(() => goTo(idx, true));
+      } else {
+        // Let the click pass through (no snapping on simple taps)
+        // No preventDefault here, so anchor clicks work.
+      }
+    }
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+  })();
+
+  window.addEventListener('resize', ()=>{ /* keep cards' size; page size fixed */ goTo(current,false); });
+  buildSlides();
+})();
+</script>
+
+<script>
+(function(){
+  const headingEl = document.getElementById('communityMonthlyHeading');
+  const summaryEl = document.getElementById('communityMonthlySummary');
+  const statsEl = document.getElementById('communityMonthlyStats');
+  const kickerEl = document.getElementById('communityMonthlyKicker');
+  if (!headingEl || !summaryEl || !statsEl) return;
+  const DEFAULT_HEADING = headingEl.textContent;
+  function pluralize(n, word){ return `${n} ${word}${n === 1 ? '' : 's'}`; }
+  function setKicker(text){ if (kickerEl) kickerEl.textContent = text; }
+
+  const MONTH_FORMATTER = new Intl.DateTimeFormat('en-US', { month:'long', year:'numeric' });
+
+  function safeText(value){ return String(value ?? '').trim(); }
+  function parseDate(value){
+    const raw = safeText(value);
+    if (!raw) return null;
+    const d = new Date(`${raw}T12:00:00`);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  function monthKey(date){
+    return date ? `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}` : '';
+  }
+  function contributorKey(name){
+    return safeText(name).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function aliasKey(name){
+    return contributorKey(name)
+      .replace(/\b(phd|ph d|dr|prof|professor|msc|ms|ma|bs|ba|md)\b/g, '')
+      .replace(/\b(lab|team|group|project|center|centre|laboratory|research|institute)\b/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  function parenKeys(name){
+    const raw = safeText(name);
+    const matches = Array.from(raw.matchAll(/\(([^)]+)\)/g)).map((m) => contributorKey(m[1]));
+    return matches.filter(Boolean);
+  }
+  function normalizeArrayPayload(payload){
+    if (Array.isArray(payload)) return payload;
+    if (payload && Array.isArray(payload.models)) return payload.models;
+    if (payload && Array.isArray(payload.resources)) return payload.resources;
+    if (payload && typeof payload === 'object') return Object.values(payload);
+    return [];
+  }
+  function authorNames(item){
+    const authors = item?.authors;
+    if (Array.isArray(authors)){
+      return authors.map((entry) => safeText(entry?.name || entry)).filter(Boolean);
+    }
+    if (typeof authors === 'string'){
+      return authors.split(/[,;]+/).map((part) => safeText(part)).filter(Boolean);
+    }
+    return [];
+  }
+  function contributorNames(item, registry){
+    const names = [];
+    if (Array.isArray(item.contributors) && item.contributors.length){
+      names.push(...item.contributors.map((entry) => safeText(entry?.name || entry)).filter(Boolean));
+    }
+    const single = safeText(item.contributor);
+    if (single) names.push(single);
+    if (registry){
+      authorNames(item).forEach((name) => {
+        const key = contributorKey(name);
+        const alt = aliasKey(name);
+        if (registry.get(key) || registry.get(alt)) names.push(name);
+      });
+    }
+    return Array.from(new Set(names.map((name) => safeText(name)).filter(Boolean)));
+  }
+  function setStats(values){
+    Array.from(statsEl.querySelectorAll('strong')).forEach((node, idx) => {
+      node.textContent = String(values[idx] ?? 0);
+    });
+  }
+
+  Promise.all([
+    fetch('data/datasets.json', { cache:'no-store' }).then((res) => res.ok ? res.json() : {}),
+    fetch('data/models.json', { cache:'no-store' }).then((res) => res.ok ? res.json() : []),
+    fetch('data/contributors.json', { cache:'no-store' }).then((res) => res.ok ? res.json() : [])
+  ]).then(([datasetsPayload, modelsPayload, contributorsPayload]) => {
+    const registry = new Map();
+    (Array.isArray(contributorsPayload) ? contributorsPayload : []).forEach((row) => {
+      const key = contributorKey(row?.name);
+      const alt = aliasKey(row?.name);
+      const idKey = contributorKey(row?.id);
+      if (key) registry.set(key, row);
+      if (alt && !registry.has(alt)) registry.set(alt, row);
+      if (idKey && !registry.has(idKey)) registry.set(idKey, row);
+      parenKeys(row?.name).forEach((parenKey) => {
+        if (!registry.has(parenKey)) registry.set(parenKey, row);
+        const stripped = aliasKey(parenKey);
+        if (stripped && !registry.has(stripped)) registry.set(stripped, row);
+      });
+    });
+    const datasetEntries = normalizeArrayPayload(datasetsPayload).map((item) => ({ type:'dataset', item, added: parseDate(item.added_date || item.added) }));
+    const modelEntries = normalizeArrayPayload(modelsPayload).map((item) => ({ type:'model', item, added: parseDate(item.added_date || item.added) }));
+    const allEntries = [...datasetEntries, ...modelEntries].filter((entry) => entry.added);
+    const latest = allEntries.slice().sort((a,b) => (b.added?.getTime() || 0) - (a.added?.getTime() || 0))[0];
+    if (!latest){
+      setKicker('Coming Soon');
+      headingEl.textContent = 'Monthly digest coming soon';
+      summaryEl.textContent = "We'll surface new datasets, models, and contributors here as soon as the catalog records new activity.";
+      setStats(['—','—','—']);
+      return;
+    }
+    const key = monthKey(latest.added);
+    const monthly = allEntries.filter((entry) => monthKey(entry.added) === key);
+    const datasetCount = monthly.filter((entry) => entry.type === 'dataset').length;
+    const modelCount = monthly.filter((entry) => entry.type === 'model').length;
+    const contributorCount = new Set(monthly.flatMap((entry) => contributorNames(entry.item, registry).map(contributorKey).filter(Boolean))).size;
+    const monthLabel = MONTH_FORMATTER.format(latest.added);
+    setKicker(`${monthLabel.toUpperCase()} Highlights`);
+    headingEl.textContent = DEFAULT_HEADING;
+    summaryEl.textContent = `${monthLabel} brought ${pluralize(datasetCount, 'dataset')}, ${pluralize(modelCount, 'model')}, and ${pluralize(contributorCount, 'contributor')} to OpenConstruction.`;
+    setStats([
+      datasetCount,
+      modelCount,
+      contributorCount
+    ]);
+  }).catch((err) => {
+    console.error('Failed to load community teaser', err);
+    setKicker('Catalog Offline');
+    headingEl.textContent = 'Monthly digest unavailable';
+    summaryEl.textContent = 'We could not reach the catalog. Try refreshing in a moment.';
+    setStats(['—','—','—']);
+  });
+})();
+</script>
+
+</body>
+</html>
