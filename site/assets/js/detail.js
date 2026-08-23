@@ -123,24 +123,52 @@ function safeHref(href){
   return '';
 }
 
-function singleDatasetDistribution(ds){
+function directDatasetDistributions(ds){
   const distributions = Array.isArray(ds?.distribution)
     ? ds.distribution.filter(item => item && typeof item === 'object')
     : [];
-  if (distributions.length !== 1) return null;
+  if (!distributions.length) return [];
 
-  const item = distributions[0];
-  if (item.browser_download === false) return null;
-  const url = safeHref(item.content_url || item.contentUrl || item.url || '');
-  if (!url) return null;
+  const downloads = distributions.map(item => {
+    if (item.browser_download === false) return null;
+    const url = safeHref(item.content_url || item.contentUrl || item.url || '');
+    if (!url) return null;
+    return {
+      url,
+      filename: String(item.filename || item.name || '').trim(),
+      provider: String(item.provider || '').trim(),
+      method: item.download_method === 'fetch' ? 'fetch' : 'navigate',
+      sizeBytes: Number.isFinite(Number(item.content_size)) ? Number(item.content_size) : null
+    };
+  });
+  return downloads.every(Boolean) ? downloads : [];
+}
 
-  return {
-    url,
-    filename: String(item.filename || item.name || '').trim(),
-    provider: String(item.provider || '').trim(),
-    method: item.download_method === 'fetch' ? 'fetch' : 'navigate',
-    sizeBytes: Number.isFinite(Number(item.content_size)) ? Number(item.content_size) : null
-  };
+function formatDownloadSize(sizeBytes){
+  const bytes = Number(sizeBytes);
+  if (!Number.isFinite(bytes) || bytes < 0) return '';
+  const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
+  let value = bytes;
+  let unitIndex = 0;
+  while (value >= 1024 && unitIndex < units.length - 1) {
+    value /= 1024;
+    unitIndex += 1;
+  }
+  const digits = value >= 100 || unitIndex === 0 ? 0 : (value >= 10 ? 1 : 2);
+  return `${value.toFixed(digits)} ${units[unitIndex]}`;
+}
+
+function datasetDirectDownloadButtonsHtml(downloads){
+  if (!Array.isArray(downloads) || !downloads.length) return '';
+  const multiple = downloads.length > 1;
+  return downloads.map((item, index) => {
+    const filename = item.filename || `dataset-part-${index + 1}`;
+    const sizeLabel = formatDownloadSize(item.sizeBytes);
+    const buttonLabel = multiple
+      ? `Download ${filename}${sizeLabel ? ` (${sizeLabel})` : ''}`
+      : 'Download full dataset';
+    return `<a class="btn btn-primary btn-sm" href="${escapeHtml(item.url)}" rel="noopener" data-license-gate data-license-action="download" data-license-action-label="${escapeHtml(buttonLabel)}" data-download-method="${escapeHtml(item.method)}" data-download-filename="${escapeHtml(filename)}">${escapeHtml(buttonLabel)}</a>`;
+  }).join('');
 }
 
 function huggingFaceDatasetRepo(ds){
@@ -2444,8 +2472,8 @@ async function initDetail(){
     const datasetPaperTitle = safeText(ds.paper || ds.paper_title || ds.publication || '');
     const datasetPaperUrl = doiHref(ds.doi || '') || safeHref(ds.paper_url || ds.paper_link || ds.source || '');
     const datasetAccessUrl = safeHref(ds.access || '');
-    const datasetDownload = singleDatasetDistribution(ds);
-    const datasetInstructions = datasetDownload ? null : datasetDownloadInstructions(ds);
+    const datasetDownloads = directDatasetDistributions(ds);
+    const datasetInstructions = datasetDownloads.length ? null : datasetDownloadInstructions(ds);
     const datasetCodeValue = ds.code || ds.code_url || '';
     const datasetCodeUrl = safeHref(datasetCodeValue);
     const quickFacts = [
@@ -2769,8 +2797,8 @@ async function initDetail(){
           <div class="card-body">
             <h2 class="h6 text-uppercase text-muted mb-3">Dataset Access</h2>
             <div class="d-grid gap-2">
-              ${datasetDownload
-                ? `<a class="btn btn-primary btn-sm" href="${datasetDownload.url}" rel="noopener" data-license-gate data-license-action="download" data-license-action-label="Download full dataset" data-download-method="${escapeHtml(datasetDownload.method)}" data-download-filename="${escapeHtml(datasetDownload.filename)}">Download full dataset</a>`
+              ${datasetDownloads.length
+                ? datasetDirectDownloadButtonsHtml(datasetDownloads)
                 : (datasetInstructions
                   ? `<a class="btn btn-primary btn-sm" href="${datasetInstructions.repoUrl}" rel="noopener" data-license-gate data-license-action="instructions" data-license-action-label="View download instructions" data-instructions-target="#datasetDownloadInstructionsModal">Download via CLI</a>`
                   : (datasetAccessUrl ? `<a class="btn btn-primary btn-sm" href="${datasetAccessUrl}" target="_blank" rel="noopener" data-license-gate data-license-action-label="Open dataset source">Access dataset</a>` : ''))}

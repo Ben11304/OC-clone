@@ -162,10 +162,11 @@ function hasDirectDownload(ds){
   const distributions = Array.isArray(ds?.distribution)
     ? ds.distribution.filter(item => item && typeof item === 'object')
     : [];
-  if (distributions.length !== 1) return false;
-  const item = distributions[0];
-  if (item.browser_download === false) return false;
-  return validHttpUrl(item.content_url || item.contentUrl || item.url || '');
+  if (!distributions.length) return false;
+  return distributions.every(item => (
+    item.browser_download !== false
+    && validHttpUrl(item.content_url || item.contentUrl || item.url || '')
+  ));
 }
 
 function huggingFaceRepoFromAccess(ds){

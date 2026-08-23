@@ -5170,15 +5170,47 @@
   ],
   "paper": "TunGPR: Enhancing data-driven maintenance for tunnel linings through synthetic datasets, deep learning and BIM",
   "license": "CC BY-NC 4.0",
-    "access": "https://github.com/LCA-Asset/TunGPR",
-    "programmatic_access": [{
-      "provider": "github",
-      "method": "github_clone",
-      "repo_id": "LCA-Asset/TunGPR",
+  "access": "https://github.com/LCA-Asset/TunGPR/tree/master/Dataset",
+  "code": "https://github.com/LCA-Asset/TunGPR",
+  "distribution": [
+    {
+      "provider": "google_drive",
+      "content_url": "https://drive.usercontent.google.com/download?id=1OojzmbI5tDJrUtShyAYzcVTZc-lHmTLN&export=download&confirm=t",
+      "filename": "Tunnel_lining.zip",
+      "encoding_format": "application/zip",
+      "content_size": 33811414,
+      "download_method": "navigate",
+      "browser_download": true
+    },
+    {
+      "provider": "google_drive",
+      "content_url": "https://drive.usercontent.google.com/download?id=10Y3EEOUUtwHZY1K41uZUN3NDbQn4_uXe&export=download&confirm=t",
+      "filename": "Hyperbolic_feature.zip",
+      "encoding_format": "application/zip",
+      "content_size": 966882558,
+      "download_method": "navigate",
+      "browser_download": true
+    },
+    {
+      "provider": "google_drive",
+      "content_url": "https://drive.usercontent.google.com/download?id=1vYn6sMmeGq3vCfNPSi0xmR9KSGkr9IjI&export=download&confirm=t",
+      "filename": "R_update.zip",
+      "encoding_format": "application/zip",
+      "content_size": 1506106388,
+      "download_method": "navigate",
+      "browser_download": true
+    }
+  ],
+  "programmatic_access": [
+    {
+      "provider": "google_drive",
+      "method": "http_files",
       "scope": "full",
       "requires_auth": false,
-      "documentation_url": "https://github.com/LCA-Asset/TunGPR"
-    }],
+      "notice": "R_update.zip supplies the R-folder annotations omitted from the original Tunnel_lining.zip archive. Download all three files for the complete published package.",
+      "documentation_url": "https://github.com/LCA-Asset/TunGPR/tree/master/Dataset"
+    }
+  ],
   "id": "TunGPR",
   "image_url": "assets/img/datasets/TunGPR.png",
   "added_date": "2026-05-22",
