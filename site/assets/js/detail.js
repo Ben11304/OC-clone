@@ -858,11 +858,32 @@ function shareCardHtml(label){
       <div class="card-body">
         <h2 class="h6 text-uppercase text-muted mb-3">Share</h2>
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-oc-share data-share-label="${escapeHtml(label)}">Share or Copy Link</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-with-icon" data-oc-share data-share-label="${escapeHtml(label)}">${actionButtonContent('share', 'Share or Copy Link')}</button>
         </div>
       </div>
     </div>
   `;
+}
+
+function actionButtonIcon(icon){
+  const icons = {
+    access: '<path d="M7 7h10v10"></path><path d="M7 17 17 7"></path><path d="M5 21h14a2 2 0 0 0 2-2V5"></path>',
+    paper: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M8 13h8"></path><path d="M8 17h6"></path>',
+    code: '<path d="m9 18-6-6 6-6"></path><path d="m15 6 6 6-6 6"></path>',
+    share: '<circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4"></path><path d="m8.6 13.5 6.8 4"></path>'
+  };
+  const paths = icons[icon] || icons.paper;
+  return `<svg class="btn-action-icon" viewBox="0 0 24 24" aria-hidden="true">${paths}</svg>`;
+}
+
+function actionButtonContent(icon, label){
+  return `${actionButtonIcon(icon)}<span class="btn-label">${escapeHtml(label)}</span>`;
+}
+
+function setActionButtonLabel(button, label){
+  const labelEl = button?.querySelector?.('.btn-label');
+  if (labelEl) labelEl.textContent = label;
+  else if (button) button.textContent = label;
 }
 
 function bookmarkInlineHtml(type, id, label){
@@ -989,7 +1010,7 @@ function prettyTermLabel(raw){
   };
   if (preferred[key]) return preferred[key];
   const minorWords = new Set(['a', 'an', 'and', 'as', 'at', 'by', 'for', 'from', 'in', 'of', 'on', 'or', 'the', 'to', 'via', 'vs', 'with']);
-  const acronymPattern = /^(2d|3d|4d|rgb|rgbd|rgb-d|slam|lidar|cnn|rnn|gan|svm|ml|ai|nlp|uav|imu|sar|bim|ifc|gpr|teaser|vlm|llm|qa|hvac|lod3|ui|pcd|fob|cif|dap)$/i;
+  const acronymPattern = /^(2d|3d|4d|rgb|rgbd|rgb-d|slam|lidar|cnn|rnn|gan|svm|ml|ai|nlp|uav|imu|sar|bim|ifc|gpr|mep|teaser|vlm|llm|qa|hvac|lod3|ui|pcd|fob|cif|dap)$/i;
   const tokens = key.split(/\s+/).filter(Boolean);
   return tokens.map((token, index) => {
     const parts = token.match(/^([^a-z0-9]*)([a-z0-9-]+)([^a-z0-9]*)$/i);
@@ -1152,44 +1173,89 @@ function abstractToggleHtml(text, opts = {}){
   `;
 }
 
-
-function formatLicense(licVal){
-  const norm = safeText(licVal);
-  if (norm === '—') return '';
-  const key = String(licVal).trim().toUpperCase();
-  const licenseMap = {
-    'APACHE-2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
-	'APACHE 2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
-    'CC0': 'https://creativecommons.org/public-domain/cc0/',
-    'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/',
-    'CC-BY 4.0': 'https://creativecommons.org/licenses/by/4.0/',
-    'CC BY-NC 3.0': 'https://creativecommons.org/licenses/by-nc/3.0/',
-    'CC-BY-NC 3.0': 'https://creativecommons.org/licenses/by-nc/3.0/',
-    'CC BY NC 3.0': 'https://creativecommons.org/licenses/by-nc/3.0/',
-    'CC BY-NC 4.0': 'https://creativecommons.org/licenses/by-nc/4.0/',
-    'CC-BY-NC': 'https://creativecommons.org/licenses/by-nc/4.0/',
-    'GPL-3.0': 'https://www.gnu.org/licenses/gpl-3.0.html',
-    'MIT': 'https://opensource.org/licenses/MIT',
-    'ODC-BY': 'https://opendatacommons.org/licenses/by/',
-    'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
-    'CC BY-NC-ND 3.0': 'https://creativecommons.org/licenses/by-nc-nd/3.0/',
-    'CC BY-NC-ND 4.0': 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
-    'AGPL 3.0': 'https://spdx.org/licenses/AGPL-3.0-or-later.html',
-    'MIT License with Commons Clause Restriction':'https://github.com/zhu-xlab/GlobalBuildingAtlas/blob/main/LICENSE',
-	'LGPL-3.0':'https://www.gnu.org/licenses/lgpl-3.0.html',
-    'CC BY-NC-SA 4.0': 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en',
-    'CUSTOM MIT LICENSE (UNIVERSITY OF STUTTGART)': 'https://darus.uni-stuttgart.de/api/datasets/:persistentId/versions/1.0/customlicense?persistentId=doi:10.18419/DARUS-5676'
-  };
-  if (licenseMap[key]) {
-    return `<span class="license-inline">${licenseIconStripHtml(licVal)}<span class="license-title-line"><a href="${licenseMap[key]}" target="_blank" rel="noopener">${norm}</a></span></span>`;
-  }
-  return `<span class="license-inline"><span class="license-title-line">${norm}</span></span>`;
+function isCustomLicense(licVal){
+  const key = String(licVal || '').trim().toUpperCase();
+  if (!key) return false;
+  return (
+    /\bCUSTOM\b/.test(key) ||
+    /\bMIXED LICENSE\b/.test(key) ||
+    /\bCOMMONS CLAUSE\b/.test(key) ||
+    /\bACADEMIC USE ONLY\b/.test(key) ||
+    /\bRESEARCH AND EDUCATIONAL? PURPOSES? ONLY\b/.test(key) ||
+    /\bPROPRIETARY\b/.test(key) ||
+    /^FI-NCA?L$/.test(key) ||
+    /^MODIFIED BSD$/.test(key) ||
+    /^BSD-3-CLAUSE-STYLE LICENSE\b/.test(key)
+  );
 }
 
-function formatLicense(licVal){
+function licenseDisplayLabel(licVal){
+  const norm = safeText(licVal);
+  if (norm === '—') return '';
+  if (isCustomLicense(licVal)) return 'Custom License';
+  const key = String(licVal).trim().toUpperCase();
+  const labels = {
+    'CC0': 'Creative Commons CC0 Public Domain Dedication',
+    'CC BY 4.0': 'Creative Commons Attribution 4.0 International',
+    'CC-BY 4.0': 'Creative Commons Attribution 4.0 International',
+    'CC BY-NC 3.0': 'Creative Commons Attribution-NonCommercial 3.0',
+    'CC-BY-NC 3.0': 'Creative Commons Attribution-NonCommercial 3.0',
+    'CC BY NC 3.0': 'Creative Commons Attribution-NonCommercial 3.0',
+    'CC BY-NC 4.0': 'Creative Commons Attribution-NonCommercial 4.0 International',
+    'CC-BY-NC': 'Creative Commons Attribution-NonCommercial 4.0 International',
+    'CC BY-SA 4.0': 'Creative Commons Attribution-ShareAlike 4.0 International',
+    'CC BY-NC-ND 3.0': 'Creative Commons Attribution-NonCommercial-NoDerivatives 3.0',
+    'CC BY-NC-ND 4.0': 'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International',
+    'CC BY-NC-SA 4.0': 'Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International'
+  };
+  return labels[key] || norm;
+}
+
+
+function recordLicenseHref(record){
+  if (!record) return '';
+  const fields = [
+    record.license_url,
+    record.licence_url,
+    record.license_link,
+    record.licence_link,
+    record.terms_url,
+    record.access_terms_url,
+    record.usage_terms_url
+  ];
+  for (const value of fields) {
+    const href = safeHref(value);
+    if (href) return href;
+  }
+  return '';
+}
+
+function recordSourceHref(record){
+  if (!record) return '';
+  const fields = [
+    record.source_url,
+    record.source,
+    record.code_url,
+    record.code,
+    record.data_url,
+    record.access,
+    record.url,
+    record.link,
+    record.paper_url,
+    record.paper
+  ];
+  for (const value of fields) {
+    const href = safeHref(value);
+    if (href) return href;
+  }
+  return '';
+}
+
+function formatLicense(licVal, record){
   const norm = safeText(licVal);
   if (norm === '—') return '';
 
+  const displayLabel = licenseDisplayLabel(licVal);
   const key = String(licVal).trim().toUpperCase();
   const licenseMap = {
     'APACHE-2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
@@ -1219,19 +1285,23 @@ function formatLicense(licVal){
     'BSD-3-CLAUSE-STYLE LICENSE (COPYRIGHT 2019 CARNEGIE MELLON UNIVERSITY)': 'https://github.com/DIUx-xView/xView2_baseline/blob/master/LICENSE.md',
     'ACADEMIC USE ONLY (UNIVERSITY OF CAMBRIDGE)': 'https://github.com/mac137/ConSLAM/blob/main/LICENCE.txt',
     'FI-NCAL': 'https://github.com/fraunhofer-italia/AID-AI-Infraction-Detection/blob/main/LICENSE.md',
-    'CUSTOM MIT LICENSE (UNIVERSITY OF STUTTGART)': 'https://darus.uni-stuttgart.de/api/datasets/:persistentId/versions/1.0/customlicense?persistentId=doi:10.18419/DARUS-5676'
+    'CUSTOM MIT LICENSE (UNIVERSITY OF STUTTGART)': 'https://darus.uni-stuttgart.de/api/datasets/:persistentId/versions/1.0/customlicense?persistentId=doi:10.18419/DARUS-5676',
+    'MIXED LICENSE, SEE HTTPS://XVIEW2.ORG/TERMS': 'https://xview2.org/terms'
   };
 
-  if (licenseMap[key]) {
-    return `<span class="license-inline">${licenseIconStripHtml(licVal)}<span class="license-title-line"><a href="${licenseMap[key]}" target="_blank" rel="noopener">${norm}</a></span></span>`;
+  const licenseUrl = licenseMap[key] || licenseHrefFor(licVal, record);
+  if (licenseUrl) {
+    return `<span class="license-inline">${licenseIconStripHtml(licVal)}<span class="license-title-line"><a href="${licenseUrl}" target="_blank" rel="noopener">${escapeHtml(displayLabel)}</a></span></span>`;
   }
-  return `<span class="license-inline"><span class="license-title-line">${norm}</span></span>`;
+  return `<span class="license-inline"><span class="license-title-line">${escapeHtml(displayLabel)}</span></span>`;
 }
 
-function licenseHrefFor(licVal){
+function licenseHrefFor(licVal, record){
   const norm = safeText(licVal);
   if (norm === '—') return '';
   const key = String(licVal).trim().toUpperCase();
+  const recordUrl = recordLicenseHref(record);
+  if (recordUrl) return recordUrl;
   const licenseMap = {
     'APACHE-2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
     'APACHE 2.0': 'https://www.apache.org/licenses/LICENSE-2.0',
@@ -1258,9 +1328,14 @@ function licenseHrefFor(licVal){
     'BSD-3-CLAUSE-STYLE LICENSE (COPYRIGHT 2019 CARNEGIE MELLON UNIVERSITY)': 'https://github.com/DIUx-xView/xView2_baseline/blob/master/LICENSE.md',
     'ACADEMIC USE ONLY (UNIVERSITY OF CAMBRIDGE)': 'https://github.com/mac137/ConSLAM/blob/main/LICENCE.txt',
     'FI-NCAL': 'https://github.com/fraunhofer-italia/AID-AI-Infraction-Detection/blob/main/LICENSE.md',
-    'CUSTOM MIT LICENSE (UNIVERSITY OF STUTTGART)': 'https://darus.uni-stuttgart.de/api/datasets/:persistentId/versions/1.0/customlicense?persistentId=doi:10.18419/DARUS-5676'
+    'CUSTOM MIT LICENSE (UNIVERSITY OF STUTTGART)': 'https://darus.uni-stuttgart.de/api/datasets/:persistentId/versions/1.0/customlicense?persistentId=doi:10.18419/DARUS-5676',
+    'MIXED LICENSE, SEE HTTPS://XVIEW2.ORG/TERMS': 'https://xview2.org/terms'
   };
-  return licenseMap[key] || '';
+  if (licenseMap[key]) return licenseMap[key];
+  const embeddedUrl = String(licVal || '').match(/https?:\/\/\S+/i)?.[0];
+  const embeddedHref = safeHref(embeddedUrl);
+  if (embeddedHref) return embeddedHref;
+  return isCustomLicense(licVal) ? recordSourceHref(record) : '';
 }
 
 function licenseNoticeFor(licVal){
@@ -1484,10 +1559,10 @@ function licenseTermIconHtml(label){
   return term ? licenseBadgeHtml(term.kind, term.label) : '';
 }
 
-function resourceLicenseModalHtml({ license, resourceType = 'resource', modalTitle = 'Review resource license', actionLabel = 'Open resource source' } = {}){
-  const licenseLabel = safeText(license) === '—' ? 'Unspecified license' : safeText(license);
+function resourceLicenseModalHtml({ license, resource, resourceType = 'resource', modalTitle = 'Review resource license', actionLabel = 'Open resource source' } = {}){
+  const licenseLabel = safeText(license) === '—' ? 'Unspecified license' : licenseDisplayLabel(license);
   const notice = licenseNoticeFor(license);
-  const licenseUrl = licenseHrefFor(license);
+  const licenseUrl = licenseHrefFor(license, resource);
   const licenseTerms = licenseUrl
     ? `<a href="${licenseUrl}" target="_blank" rel="noopener">${escapeHtml(licenseLabel)}</a>`
     : escapeHtml(licenseLabel);
@@ -1546,6 +1621,7 @@ function resourceLicenseModalHtml({ license, resourceType = 'resource', modalTit
 function datasetLicenseModalHtml(ds){
   return resourceLicenseModalHtml({
     license: ds?.license,
+    resource: ds,
     resourceType: 'dataset',
     modalTitle: 'Review dataset license',
     actionLabel: 'Open dataset source'
@@ -1555,6 +1631,7 @@ function datasetLicenseModalHtml(ds){
 function modelLicenseModalHtml(model){
   return resourceLicenseModalHtml({
     license: model?.license,
+    resource: model,
     resourceType: 'model',
     modalTitle: 'Review model license',
     actionLabel: 'Open model source'
@@ -1788,6 +1865,10 @@ function chipLane(list){
   return `<div class="chip-lane">${items.map(x => `<span class="chip">${x}</span>`).join('')}</div>`;
 }
 
+function taskChipLabel(label){
+  return prettyTermLabel(label) || String(label || '').trim();
+}
+
 function getTaskVocabularyEntry(raw){
   const key = normalizeOcTaskKey(raw);
   if (!key) return null;
@@ -1804,10 +1885,11 @@ function taskBenchmarkHref(raw){
 function linkedTaskChipLane(list){
   const items = tokenize(list);
   if (!items.length) return '';
-  return `<div class="chip-lane">${items.map(label => {
-    const href = taskBenchmarkHref(label);
+  return `<div class="chip-lane">${items.map(rawLabel => {
+    const label = taskChipLabel(rawLabel);
+    const href = taskBenchmarkHref(rawLabel);
     if (!href) return `<span class="chip">${escapeHtml(label)}</span>`;
-    return `<a class="chip chip-link" href="${href}" title="View benchmark page for ${escapeHtml(label)}">${escapeHtml(label)}</a>`;
+    return `<a class="chip chip-link" href="${href}" title="View insight page for ${escapeHtml(label)}">${escapeHtml(label)}</a>`;
   }).join('')}</div>`;
 }
 
@@ -1823,7 +1905,7 @@ function linkedApplicationChipLane(list){
   return `<div class="chip-lane">${items.map(label => {
     const href = applicationBenchmarkHref(label);
     if (!href) return `<span class="chip">${escapeHtml(label)}</span>`;
-    return `<a class="chip chip-link" href="${href}" title="View benchmark page for ${escapeHtml(label)}">${escapeHtml(label)}</a>`;
+    return `<a class="chip chip-link" href="${href}" title="View insight page for ${escapeHtml(label)}">${escapeHtml(label)}</a>`;
   }).join('')}</div>`;
 }
 
@@ -1893,14 +1975,14 @@ function benchmarkLinksCardHtml(boards){
   return `
     <div class="card border-0 shadow-sm mb-3">
       <div class="card-body">
-        <h2 class="h6 text-uppercase text-muted mb-3">Benchmarks &amp; Leaderboards</h2>
+        <h2 class="h6 text-uppercase text-muted mb-3">Reported Results</h2>
         <div class="d-grid gap-2">
           ${boards.map(board => {
             const isExternal = !!board.results_url;
             const href = isExternal
               ? board.results_url
               : `../benchmark_results.html?id=${encodeURIComponent(board.id || '')}`;
-            const label = isExternal ? 'Open leaderboard' : 'View benchmark results';
+            const label = isExternal ? 'Open leaderboard' : 'View reported results';
             const title = board.page_title || board.name || label;
             return href
               ? `<a class="btn btn-outline-secondary btn-sm" href="${escapeHtml(href)}" ${isExternal ? 'target="_blank" rel="noopener"' : ''}>${escapeHtml(label)}</a><div class="small text-muted">${escapeHtml(title)}</div>`
@@ -1963,13 +2045,13 @@ async function initDetail(){
       const modelTitle = m.title || m.name || 'Untitled';
       const year = (m.year !== undefined && m.year !== null) ? m.year : '—';
 
-      const imgBase = `../assets/img/models/${encodeURIComponent(m.id || id)}`;
+      const codeUrl  = (m.code_url  || m.code  || '').trim();
+      const imgCandidates = getModelImageCandidates(m, id, codeUrl);
       const imgPlaceholder = `../assets/img/models/_placeholder.png`;
       const captionText = m.sample_caption || m.caption || 'Media from public websites are © their respective creators unless otherwise noted.';
       const rawPaperField = safeText(m.paper || '');
       const paperFieldIsUrl = rawPaperField !== '—' && !!safeHref(rawPaperField);
       const paperUrl = safeHref(m.paper_url || m.paper_link || '') || (paperFieldIsUrl ? safeHref(rawPaperField) : '');
-      const codeUrl  = (m.code_url  || m.code  || '').trim();
       const modelSourceUrl = safeHref(codeUrl);
       const doiSource = m.doi || (paperUrl && paperUrl.includes('doi.org/') ? paperUrl : '');
       const doiUrl = doiSource
@@ -1977,7 +2059,7 @@ async function initDetail(){
         : '';
       const showDoiButton = !!doiUrl && doiUrl !== paperUrl;
       const doiBlock = doiSource ? `<div class="mb-2"><span class="text-muted">DOI:</span> ${formatDoi(doiSource)}</div>` : '';
-      const licenseBlock = m.license ? `<div class="mb-0"><span class="text-muted">License:</span> ${formatLicense(m.license)}</div>` : '';
+      const licenseBlock = m.license ? `<div class="mb-0"><span class="text-muted">License:</span> ${formatLicense(m.license, m)}</div>` : '';
       const authorBlock = authorListHtml(m.authors, m.author_urls || m.authors_url || m.author_links);
       const badgeIdSource = (m.doi && String(m.doi).trim()) ? m.doi : paperUrl;
       const pubBadgesBlock = publicationBadgesHtml(badgeIdSource, {
@@ -2006,7 +2088,7 @@ async function initDetail(){
         { label: 'Tasks', value: taskList.length ? linkedTaskChipLane(taskList) : '—' },
         { label: 'Primary Application', value: appList.length ? linkedApplicationChipLane(appList.slice(0, 1)) : '—' },
         { label: 'Modality', value: modalityList.length ? escapeHtml(modalityList[0]) : '—' },
-        { label: 'License', value: formatLicense(m.license) || '—' }
+        { label: 'License', value: formatLicense(m.license, m) || '—' }
       ];
 
       function datasetHref(ds){
@@ -2118,6 +2200,8 @@ async function initDetail(){
           .meta-val{ font-weight:600; line-height:1.4; }
           .chip-lane{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .5rem; }
           .chip{ display:inline-flex; align-items:center; padding:.28rem .6rem; background:var(--oc-muted); border:1px solid var(--oc-border); border-radius:999px; font-weight:600; font-size:.82rem; color:var(--oc-text);}
+          .btn-with-icon{ display:inline-flex; align-items:center; justify-content:center; gap:.45rem; }
+          .btn-action-icon{ width:1rem; height:1rem; flex:0 0 auto; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
           .abs{ white-space:pre-line; }
           .detail-section{ padding:1.25rem 1.35rem; margin-bottom:1rem; }
           .detail-kicker{ color:var(--oc-sub); font-size:.76rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.45rem; }
@@ -2253,7 +2337,7 @@ async function initDetail(){
             ${metaRow('Source status', escapeHtml(formatSourceStatus(m.source_status)))}
             ${metaRow('Code URL', modelSourceUrl ? `<a href="${modelSourceUrl}" target="_blank" rel="noopener" data-license-gate>${escapeHtml(codeUrl)}</a>` : '—')}
             ${metaRow('DOI', doiSource ? formatDoi(doiSource) : '—')}
-            ${metaRow('License', formatLicense(m.license) || '—')}
+            ${metaRow('License', formatLicense(m.license, m) || '—')}
           </dl>
         </section>
 
@@ -2298,8 +2382,8 @@ async function initDetail(){
             <div class="card-body">
               <h2 class="h6 text-uppercase text-muted mb-3">Model Links</h2>
               <div class="d-grid gap-2">
-                ${modelSourceUrl ? `<a class="btn btn-primary btn-sm" href="${modelSourceUrl}" target="_blank" rel="noopener" data-license-gate>View Code</a>` : ''}
-                ${paperUrl ? `<a class="btn btn-outline-secondary btn-sm" href="${paperUrl}" target="_blank" rel="noopener">View Paper</a>` : ''}
+                ${modelSourceUrl ? `<a class="btn btn-primary btn-sm btn-with-icon" href="${modelSourceUrl}" target="_blank" rel="noopener" data-license-gate>${actionButtonContent('code', 'View Code')}</a>` : ''}
+                ${paperUrl ? `<a class="btn btn-outline-secondary btn-sm btn-with-icon" href="${paperUrl}" target="_blank" rel="noopener">${actionButtonContent('paper', 'View Paper')}</a>` : ''}
                 ${showDoiButton ? `<a class="btn btn-outline-secondary btn-sm" href="${doiUrl}" target="_blank" rel="noopener">DOI</a>` : ''}
               </div>
             </div>
@@ -2337,7 +2421,7 @@ async function initDetail(){
           ${pubBadgesBlock ? `
           <div class="card border-0 shadow-sm">
             <div class="card-body">
-			<h2 class="h6 text-uppercase text-muted mb-2">Scholarly Records</h2>
+			<h2 class="h6 text-uppercase text-muted mb-2">Citation &amp; Attention</h2>
 			<div class="text-muted small mb-2">
 			  Data source:
 			  <a href="https://www.altmetric.com" target="_blank" rel="noopener">Altmetric</a> and
@@ -2374,15 +2458,15 @@ async function initDetail(){
       const shareBtn = root.querySelector('[data-oc-share]');
       if (shareBtn) {
         shareBtn.addEventListener('click', async () => {
-          const original = shareBtn.textContent;
+          const original = shareBtn.querySelector('.btn-label')?.textContent || shareBtn.textContent;
           const label = shareBtn.getAttribute('data-share-label') || modelTitle;
           const result = await shareResourceLink({
             title: label,
             text: `OpenConstruction resource: ${label}`
           });
           if (result === 'cancelled') return;
-          shareBtn.textContent = result === 'shared' ? 'Shared' : (result === 'copied' ? 'Link Copied' : 'Copy Failed');
-          window.setTimeout(() => { shareBtn.textContent = original; }, 1800);
+          setActionButtonLabel(shareBtn, result === 'shared' ? 'Shared' : (result === 'copied' ? 'Link Copied' : 'Copy Failed'));
+          window.setTimeout(() => { setActionButtonLabel(shareBtn, original); }, 1800);
         });
       }
       wireLicenseGate(root);
@@ -2390,8 +2474,7 @@ async function initDetail(){
 
       const imgEl = root.querySelector('.ds-img');
       const modalEl = root.querySelector('#imgModal');
-      // ensure model thumbnails work for .png/.jpg/.jpeg/.gif/.webp
-      if (imgEl) setImgWithFallback(imgEl, imgBase, imgPlaceholder);
+      if (imgEl) setImgWithFallback(imgEl, imgCandidates, imgPlaceholder);
       if (imgEl && modalEl) {
         imgEl.addEventListener('click', () => {
           const modalImg = modalEl.querySelector('.modal-img');
@@ -2482,7 +2565,7 @@ async function initDetail(){
       { label: 'Classes', value: escapeHtml(safeFormatInt(ds.num_classes)) },
       { label: 'Primary Task', value: datasetTaskList.length ? escapeHtml(datasetTaskList[0]) : '—' },
       { label: 'Modality', value: datasetModalityList.length ? escapeHtml(datasetModalityList[0]) : '—' },
-      { label: 'License', value: formatLicense(ds.license) || '—' }
+      { label: 'License', value: formatLicense(ds.license, ds) || '—' }
     ];
     quickFacts[3] = { label: 'Tasks', value: datasetTaskList.length ? linkedTaskChipLane(datasetTaskList) : '—' };
     quickFacts[4] = { label: 'Modalities', value: datasetModalityList.length ? chipLane(datasetModalityList) : '—' };
@@ -2618,6 +2701,8 @@ async function initDetail(){
         .meta-val{ font-weight:600; line-height:1.4; }
         .chip-lane{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .5rem; }
         .chip{ display:inline-flex; align-items:center; padding:.28rem .6rem; background:var(--oc-muted); border:1px solid var(--oc-border); border-radius:999px; font-weight:600; font-size:.82rem; color:var(--oc-text);}
+        .btn-with-icon{ display:inline-flex; align-items:center; justify-content:center; gap:.45rem; }
+        .btn-action-icon{ width:1rem; height:1rem; flex:0 0 auto; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
         .detail-section{ padding:1.25rem 1.35rem; margin-bottom:1rem; }
         .detail-kicker{ color:var(--oc-sub); font-size:.76rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.45rem; }
         .detail-heading{ font-size:1.1rem; font-weight:700; color:var(--oc-ink); margin:0 0 .85rem; }
@@ -2746,7 +2831,7 @@ async function initDetail(){
           ${metaRow('Dataset source', datasetAccessUrl ? `<a href="${datasetAccessUrl}" target="_blank" rel="noopener" data-license-gate data-license-action-label="Open dataset source">${escapeHtml(ds.access)}</a>` : '—')}
           ${metaRow('Code source', datasetCodeUrl ? `<a href="${datasetCodeUrl}" target="_blank" rel="noopener">${escapeHtml(datasetCodeValue)}</a>` : '—')}
           ${metaRow('Blog', ds.blog_url ? `<a href="${safeHref(ds.blog_url)}" target="_blank" rel="noopener">${escapeHtml(ds.blog_url)}</a>` : '—')}
-          ${metaRow('License', formatLicense(ds.license) || '—')}
+          ${metaRow('License', formatLicense(ds.license, ds) || '—')}
           ${metaRow('Notes', noteText !== '—' ? escapeHtml(noteText) : '—')}
         </dl>
       </section>
@@ -2769,7 +2854,7 @@ async function initDetail(){
     `;
 
     const doiBlock = ds.doi ? `<div class="mb-2"><span class="text-muted">DOI:</span> ${formatDoi(ds.doi)}</div>` : '';
-    const licenseBlock = ds.license ? `<div class="mb-0"><span class="text-muted">License:</span> ${formatLicense(ds.license)}</div>` : '';
+    const licenseBlock = ds.license ? `<div class="mb-0"><span class="text-muted">License:</span> ${formatLicense(ds.license, ds)}</div>` : '';
     const authorBlock = authorListHtml(ds.authors, ds.author_urls || ds.authors_url || ds.author_links);
     // Automatic publication badges when identifier exists (doi.org DOI, raw DOI, arXiv URL/ID, PMID, pub.id)
     const pubBadgesBlock = publicationBadgesHtml(ds.doi, {
@@ -2801,8 +2886,8 @@ async function initDetail(){
                 ? datasetDirectDownloadButtonsHtml(datasetDownloads)
                 : (datasetInstructions
                   ? `<a class="btn btn-primary btn-sm" href="${datasetInstructions.repoUrl}" rel="noopener" data-license-gate data-license-action="instructions" data-license-action-label="View download instructions" data-instructions-target="#datasetDownloadInstructionsModal">Download via CLI</a>`
-                  : (datasetAccessUrl ? `<a class="btn btn-primary btn-sm" href="${datasetAccessUrl}" target="_blank" rel="noopener" data-license-gate data-license-action-label="Open dataset source">Access dataset</a>` : ''))}
-              ${datasetPaperUrl ? `<a class="btn btn-outline-secondary btn-sm" href="${datasetPaperUrl}" target="_blank" rel="noopener">View paper</a>` : ''}
+                  : (datasetAccessUrl ? `<a class="btn btn-primary btn-sm btn-with-icon" href="${datasetAccessUrl}" target="_blank" rel="noopener" data-license-gate data-license-action-label="Open dataset source">${actionButtonContent('access', 'Access dataset')}</a>` : ''))}
+              ${datasetPaperUrl ? `<a class="btn btn-outline-secondary btn-sm btn-with-icon" href="${datasetPaperUrl}" target="_blank" rel="noopener">${actionButtonContent('paper', 'View paper')}</a>` : ''}
               ${ds.blog_url ? `<a class="btn btn-outline-secondary btn-sm" href="${safeHref(ds.blog_url)}" target="_blank" rel="noopener">Blog</a>` : ''}
             </div>
           </div>
@@ -2842,7 +2927,7 @@ async function initDetail(){
         ${pubBadgesBlock ? `
           <div class="card border-0 shadow-sm">
             <div class="card-body">
-			<h2 class="h6 text-uppercase text-muted mb-2">Scholarly Records</h2>
+			<h2 class="h6 text-uppercase text-muted mb-2">Citation &amp; Attention</h2>
 			<div class="text-muted small mb-2">
 			  Data source:
 			  <a href="https://www.altmetric.com" target="_blank" rel="noopener">Altmetric</a> and
@@ -2869,15 +2954,15 @@ async function initDetail(){
     const shareBtn = root.querySelector('[data-oc-share]');
     if (shareBtn) {
       shareBtn.addEventListener('click', async () => {
-        const original = shareBtn.textContent;
+        const original = shareBtn.querySelector('.btn-label')?.textContent || shareBtn.textContent;
         const label = shareBtn.getAttribute('data-share-label') || ds.name || 'Dataset';
         const result = await shareResourceLink({
           title: label,
           text: `OpenConstruction resource: ${label}`
         });
         if (result === 'cancelled') return;
-        shareBtn.textContent = result === 'shared' ? 'Shared' : (result === 'copied' ? 'Link Copied' : 'Copy Failed');
-        window.setTimeout(() => { shareBtn.textContent = original; }, 1800);
+        setActionButtonLabel(shareBtn, result === 'shared' ? 'Shared' : (result === 'copied' ? 'Link Copied' : 'Copy Failed'));
+        window.setTimeout(() => { setActionButtonLabel(shareBtn, original); }, 1800);
       });
     }
     wireDatasetLicenseGate(root);
@@ -2902,22 +2987,118 @@ async function initDetail(){
 
 document.addEventListener('DOMContentLoaded', initDetail);
 
-/* ---------- model image fallback (png/jpg/jpeg/gif/webp) ---------- */
-function setImgWithFallback(imgEl, basePath, placeholderPath) {
-  const exts = ['png','jpg','jpeg','gif','webp'];
-  imgEl.dataset.base = basePath;
-  imgEl.dataset.placeholder = placeholderPath || '';
-  imgEl.dataset.extIndex = imgEl.dataset.extIndex || '0';
-  // start with png
-  imgEl.src = `${basePath}.${exts[0]}`;
+/* ---------- model image fallback ---------- */
+const OC_MODEL_IMAGE_EXTS = ['png','jpg','jpeg','gif','webp'];
+
+function getModelImageCandidates(model, id, codeUrl) {
+  const candidates = [];
+  const addValue = (value) => {
+    if (!value) return;
+    if (Array.isArray(value)) {
+      value.forEach(addValue);
+      return;
+    }
+    if (typeof value === 'object') {
+      addValue(value.url || value.src || value.image || value.image_url || value.thumbnail || value.thumb);
+      return;
+    }
+    expandModelImageCandidate(value).forEach(src => candidates.push(src));
+  };
+
+  [
+    model?.image,
+    model?.image_url,
+    model?.thumbnail,
+    model?.thumb,
+    model?.preview_image,
+    model?.cover_image,
+    model?.media
+  ].forEach(addValue);
+
+  const repoSlug = repoSlugFromUrl(codeUrl || model?.code_url || model?.code || '');
+  if (repoSlug) addValue(`../assets/img/models/${encodeURIComponent(repoSlug)}`);
+  addValue(`../assets/img/models/${encodeURIComponent(model?.id || id)}`);
+
+  return uniqueStrings(candidates);
+}
+
+function expandModelImageCandidate(value) {
+  const src = normalizeModelImagePath(value);
+  if (!src) return [];
+  if (/^https?:\/\//i.test(src)) return [src];
+  if (/\.(png|jpe?g|gif|webp)([?#].*)?$/i.test(src)) return [src];
+  return OC_MODEL_IMAGE_EXTS.map(ext => `${src}.${ext}`);
+}
+
+function normalizeModelImagePath(value) {
+  const raw = String(value || '').trim();
+  if (!raw || /^(javascript|data):/i.test(raw)) return '';
+
+  const absolute = safeHref(raw);
+  if (absolute) return absolute;
+
+  const path = raw.replace(/\\/g, '/').replace(/^\.\//, '');
+  if (!path) return '';
+  if (path.startsWith('../') || path.startsWith('/')) return encodeURI(path);
+  if (path.startsWith('site/assets/')) return encodeURI(`../${path.slice(5)}`);
+  if (path.startsWith('assets/')) return encodeURI(`../${path}`);
+  if (path.startsWith('img/models/')) return encodeURI(`../assets/${path}`);
+  if (!path.includes('/')) return encodeURI(`../assets/img/models/${path}`);
+  return encodeURI(path);
+}
+
+function repoSlugFromUrl(url) {
+  const safeUrl = safeHref(url);
+  if (!safeUrl) return '';
+  try {
+    const u = new URL(safeUrl);
+    if (!/github\.com$/i.test(u.hostname)) return '';
+    const parts = u.pathname.split('/').filter(Boolean);
+    return parts.length >= 2 ? decodeURIComponent(parts[1]).replace(/\.git$/i, '') : '';
+  } catch {
+    return '';
+  }
+}
+
+function uniqueStrings(values) {
+  const seen = new Set();
+  return values.filter(value => {
+    const key = String(value || '').trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function setImgWithFallback(imgEl, sources, placeholderPath) {
+  const baseCandidates = Array.isArray(sources)
+    ? sources.filter(Boolean)
+    : expandModelImageCandidate(sources);
+  const candidates = uniqueStrings([
+    ...baseCandidates,
+    placeholderPath
+  ]);
+  let index = 0;
+
+  const applyCandidate = () => {
+    const src = candidates[index] || placeholderPath || '';
+    if (!src) return;
+    imgEl.src = src;
+    imgEl.setAttribute('data-zoom-src', src);
+  };
+
   imgEl.onerror = () => {
-    const i = parseInt(imgEl.dataset.extIndex || '0', 10) + 1;
-    imgEl.dataset.extIndex = String(i);
-    if (i < exts.length) {
-      imgEl.src = `${basePath}.${exts[i]}`;
-    } else if (imgEl.dataset.placeholder) {
-      imgEl.onerror = null;
-      imgEl.src = imgEl.dataset.placeholder;
+    index += 1;
+    if (index < candidates.length) {
+      applyCandidate();
+      return;
+    }
+    imgEl.onerror = null;
+    if (placeholderPath && imgEl.src !== placeholderPath) {
+      imgEl.src = placeholderPath;
+      imgEl.setAttribute('data-zoom-src', placeholderPath);
     }
   };
+
+  applyCandidate();
 }

@@ -1,21 +1,12 @@
 from __future__ import annotations
 
-import re
-import shlex
 import urllib.parse
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from .catalog import CatalogClient, clean_text
+from .download_providers import ProviderRegistry, get_default_provider_registry
 from .provider_auth import provider_auth_status
-
-
-AUTOMATED_METHODS = {
-    "github_clone",
-    "huggingface_snapshot",
-    "figshare_files",
-    "http_files",
-}
 
 
 def _http_url(value: Any) -> str | None:
@@ -39,11 +30,6 @@ def _objects(value: Any) -> list[dict[str, Any]]:
     return [item for item in value if isinstance(item, dict)]
 
 
-def _safe_dirname(value: str) -> str:
-    safe = re.sub(r"[^A-Za-z0-9._-]+", "-", value.strip()).strip("-.")
-    return safe or "dataset"
-
-
 @dataclass(frozen=True)
 class AcquisitionPlan:
     dataset_id: str
@@ -61,6 +47,8 @@ class AcquisitionPlan:
     programmatic_access: dict[str, Any] | None = None
     instructions: dict[str, Any] | None = None
     auth: dict[str, Any] | None = None
+    capabilities: dict[str, Any] | None = None
+    source_identity: dict[str, Any] | None = None
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -79,51 +67,30 @@ def get_exact_dataset(catalog: CatalogClient, dataset_id: str) -> dict[str, Any]
     raise ValueError(f"Unknown dataset id: {dataset_id}")
 
 
-def _instructions(dataset_id: str, method: str, metadata: dict[str, Any]) -> dict[str, Any]:
-    destination = f"./{_safe_dirname(dataset_id)}"
-    if method == "github_clone":
-        repo_id = clean_text(metadata.get("repo_id"), 240)
-        if re.fullmatch(r"[A-Za-z0-9._-]+/[A-Za-z0-9._-]+", repo_id):
-            return {
-                "summary": "Clone the versioned dataset repository with Git.",
-                "command": f"git clone {shlex.quote(f'https://github.com/{repo_id}.git')} {shlex.quote(destination)}",
-            }
-    if method == "huggingface_snapshot":
-        repo_id = clean_text(metadata.get("repo_id"), 240)
-        if re.fullmatch(r"[A-Za-z0-9._-]+/[A-Za-z0-9._-]+", repo_id):
-            revision = clean_text(metadata.get("revision"), 160) or "main"
-            return {
-                "summary": "Download the pinned Hugging Face dataset snapshot.",
-                "command": (
-                    "python -m pip install -U huggingface_hub\n"
-                    f"hf download {shlex.quote(repo_id)} --repo-type dataset "
-                    f"--revision {shlex.quote(revision)} --local-dir {shlex.quote(destination)}"
-                ),
-            }
-    if method in AUTOMATED_METHODS:
-        return {
-            "summary": f"The local OC MCP can execute the {method} adapter.",
-            "command": None,
-        }
-
-    labels = {
-        "google_drive_folder": "Use the Google Drive API with the user's own credentials.",
-        "dataverse_collection": "Enumerate the Dataverse collection and download its published dataset bundles.",
-        "designsafe_globus": "Authenticate with Globus and select a user-controlled destination collection.",
-        "dreamhouse_setup": "Install the official DreamHouse package and run its artifact setup command.",
-        "roboflow_version": "Authenticate with Roboflow and request the declared versioned export.",
-        "kaggle_competition": "Accept the competition rules and authenticate with the Kaggle CLI.",
-        "baidu_share_transfer": "Authenticate locally with BaiduPCS-Go and transfer the shared dataset.",
-    }
+def _instructions(
+    dataset_id: str,
+    method: str,
+    metadata: dict[str, Any],
+    registry: ProviderRegistry,
+) -> dict[str, Any]:
+    provider = registry.get(method)
+    if provider:
+        return provider.instructions(dataset_id, metadata)
     return {
-        "summary": labels.get(method, "Follow the provider-specific access instructions."),
+        "summary": "Follow the provider-specific access instructions.",
         "command": None,
         "documentation_url": _http_url(metadata.get("documentation_url")),
         "notice": clean_text(metadata.get("notice"), 1000) or None,
     }
 
 
-def resolve_dataset_download_plan(catalog: CatalogClient, dataset_id: str) -> AcquisitionPlan:
+def resolve_dataset_download_plan(
+    catalog: CatalogClient,
+    dataset_id: str,
+    *,
+    provider_registry: ProviderRegistry | None = None,
+) -> AcquisitionPlan:
+    registry = provider_registry or get_default_provider_registry()
     resource = get_exact_dataset(catalog, dataset_id)
     source = resource.get("source") if isinstance(resource.get("source"), dict) else {}
     canonical_id = clean_text(resource.get("id"), 180)
@@ -131,23 +98,45 @@ def resolve_dataset_download_plan(catalog: CatalogClient, dataset_id: str) -> Ac
     license_name = clean_text(source.get("license") or resource.get("license"), 160) or None
     distributions = _objects(source.get("distribution"))
 
-    if len(distributions) == 1:
-        distribution = distributions[0]
-        url = _http_url(distribution.get("content_url") or distribution.get("contentUrl") or distribution.get("url"))
-        if distribution.get("browser_download") is not False and url:
-            size = distribution.get("content_size")
+    direct_urls = [
+        _http_url(item.get("content_url") or item.get("contentUrl") or item.get("url"))
+        for item in distributions
+    ]
+    if distributions and all(item.get("browser_download") is not False for item in distributions) and all(direct_urls):
+        direct_provider = registry.for_distributions(distributions) or registry.get("direct_download")
+        configuration_error = (
+            direct_provider.configuration_error({}, distributions) if direct_provider else "No direct-download adapter is registered"
+        )
+        if configuration_error is None:
+            sizes = [item.get("content_size") for item in distributions]
+            estimated_size = sum(sizes) if sizes and all(isinstance(size, int) and size >= 0 for size in sizes) else None
+            provider_names = {
+                clean_text(item.get("provider"), 120) for item in distributions if clean_text(item.get("provider"), 120)
+            }
+            single = distributions[0] if len(distributions) == 1 else {}
             return AcquisitionPlan(
                 dataset_id=canonical_id,
                 dataset_name=dataset_name,
                 kind="direct",
-                provider=clean_text(distribution.get("provider"), 120) or None,
-                method=clean_text(distribution.get("download_method"), 80) or "navigate",
-                url=url,
-                filename=clean_text(distribution.get("filename"), 240) or None,
+                provider=next(iter(provider_names)) if len(provider_names) == 1 else "http",
+                method=(
+                    direct_provider.method
+                    if direct_provider and direct_provider.handles_distributions
+                    else (
+                        clean_text(single.get("download_method"), 80) or "navigate"
+                        if len(distributions) == 1
+                        else "direct_download"
+                    )
+                ),
+                url=direct_urls[0] if len(direct_urls) == 1 else _http_url(source.get("access")),
+                filename=clean_text(single.get("filename"), 240) or None,
                 license=license_name,
-                executable_locally=True,
-                estimated_size=size if isinstance(size, int) and size >= 0 else None,
+                executable_locally=bool(direct_provider and direct_provider.capabilities.executable),
+                estimated_size=estimated_size,
                 distributions=distributions,
+                instructions=direct_provider.instructions(canonical_id, {}) if direct_provider else None,
+                capabilities=direct_provider.capabilities.to_dict() if direct_provider else None,
+                source_identity=direct_provider.source_identity({}, distributions) if direct_provider else None,
             )
 
     methods = _objects(source.get("programmatic_access"))
@@ -156,14 +145,23 @@ def resolve_dataset_download_plan(catalog: CatalogClient, dataset_id: str) -> Ac
         method = clean_text(method_metadata.get("method"), 120)
         provider = clean_text(method_metadata.get("provider"), 120) or None
         requires_auth = method_metadata.get("requires_auth") is True
+        adapter = registry.get(method)
+        configuration_error = adapter.configuration_error(method_metadata, distributions) if adapter else None
+        executable = bool(adapter and adapter.capabilities.executable and configuration_error is None)
         sizes = [item.get("content_size") for item in distributions]
-        estimated_size = sum(size for size in sizes if isinstance(size, int) and size >= 0) if sizes else None
+        estimated_size = (
+            sum(sizes) if sizes and all(isinstance(size, int) and size >= 0 for size in sizes) else None
+        )
         warnings: list[str] = []
-        if method not in AUTOMATED_METHODS:
+        if adapter is None:
+            warnings.append(f"No provider adapter is registered for method: {method or 'unknown'}.")
+        elif configuration_error:
+            warnings.append(f"The provider configuration is invalid: {configuration_error}")
+        elif not adapter.capabilities.executable:
             warnings.append("This provider still requires an assisted or provider-specific workflow.")
         if requires_auth:
             warnings.append("Provider authentication is required and must be completed locally by the user.")
-        if estimated_size is None and method in AUTOMATED_METHODS:
+        if estimated_size is None and executable:
             warnings.append("The source does not declare a total size, so disk usage cannot be fully checked before execution.")
         return AcquisitionPlan(
             dataset_id=canonical_id,
@@ -174,16 +172,18 @@ def resolve_dataset_download_plan(catalog: CatalogClient, dataset_id: str) -> Ac
             url=_http_url(method_metadata.get("documentation_url")) or _http_url(source.get("access")),
             license=license_name,
             requires_auth=requires_auth,
-            executable_locally=method in AUTOMATED_METHODS,
+            executable_locally=executable,
             estimated_size=estimated_size,
             distributions=distributions,
             programmatic_access=method_metadata,
-            instructions=_instructions(canonical_id, method, method_metadata),
+            instructions=_instructions(canonical_id, method, method_metadata, registry),
             auth=(
                 provider_auth_status(provider, method, required=True, detect_credentials=False)
                 if requires_auth
                 else None
             ),
+            capabilities=adapter.capabilities.to_dict() if adapter else None,
+            source_identity=adapter.source_identity(method_metadata, distributions) if adapter else None,
             warnings=warnings,
         )
 

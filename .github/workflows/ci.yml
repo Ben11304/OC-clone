@@ -14,29 +14,17 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    env:
-      HAS_DATA_TOKEN: ${{ secrets.DATA_REPO_TOKEN != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Checkout catalog data
-        if: env.HAS_DATA_TOKEN == 'true'
-        uses: actions/checkout@v5
-        with:
-          repository: ruoxinx/open-construction-data
-          token: ${{ secrets.DATA_REPO_TOKEN }}
-          path: _catalog-data
+      - name: Copy bundled catalog data into site/data
+        run: cp open-construction-data/*.json site/data/
 
-      - name: Copy catalog data into site/data
-        if: env.HAS_DATA_TOKEN == 'true'
-        run: cp _catalog-data/*.json site/data/
-
-      - name: Copy images into site/assets/img
-        if: env.HAS_DATA_TOKEN == 'true'
+      - name: Copy bundled images into site/assets/img
         run: |
-          if [ -d _catalog-data/img ]; then
-            rsync -a --exclude='Rebar-Counting.mp4' --exclude='Buildee.gif' _catalog-data/img/. site/assets/img/
+          if [ -d open-construction-data/img ]; then
+            rsync -a --exclude='Rebar-Counting.mp4' --exclude='Buildee.gif' open-construction-data/img/. site/assets/img/
           fi
 
       - name: Set up Node

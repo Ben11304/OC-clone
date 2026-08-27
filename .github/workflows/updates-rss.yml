@@ -21,15 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout catalog data
-        uses: actions/checkout@v4
-        with:
-          repository: ruoxinx/open-construction-data
-          token: ${{ secrets.DATA_REPO_TOKEN }}
-          path: _catalog-data
-
-      - name: Copy catalog data into site/data
-        run: cp _catalog-data/*.json site/data/
+      - name: Copy bundled catalog data into site/data
+        run: cp open-construction-data/*.json site/data/
 
       - uses: actions/setup-node@v4
         with:
@@ -46,4 +39,3 @@ jobs:
           commit_user_name: "OpenConstruction Bot"
           commit_user_email: "support@openconstruction.org"
           commit_author: "OpenConstruction Bot <support@openconstruction.org>"
-

@@ -11,6 +11,7 @@ const expectedTopLevelDirs = new Set([
   "auth",
   "data",
   "datasets",
+  "docs",
   "models",
   "oers",
   "scripts",
@@ -40,11 +41,14 @@ const expectedTopLevelHtml = new Set([
   "schema.html",
   "taxonomy.html",
   "tools.html",
+  "tutorials.html",
+  "references.html",
   "verify.html",
 ]);
 
 const expectedNestedHtml = new Set([
   "auth/callback.html",
+  "auth/mcp-authorize.html",
   "auth/sign-in.html",
   "datasets/detail.html",
   "models/details.html",
@@ -152,7 +156,10 @@ for (const file of [...topLevelHtml, ...nestedHtml]) {
   if (!labels.includes("Catalog") && !labels.includes("Libraries")) {
     fail(`site/${file} nav missing Catalog`);
   }
-  for (const label of ["Docs", "Contribute", "Community"]) {
+  if (!labels.includes("Learn") && !labels.includes("Docs")) {
+    fail(`site/${file} nav missing Learn or Docs`);
+  }
+  for (const label of ["Contribute", "Community"]) {
     if (!labels.includes(label)) fail(`site/${file} nav missing ${label}`);
   }
 }

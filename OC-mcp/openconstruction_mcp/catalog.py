@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from typing import Any, Callable
 
 
-DEFAULT_DATA_BASE_URL = "https://www.openconstruction.org/data"
+DEFAULT_DATA_BASE_URL = "https://raw.githubusercontent.com/Ben11304/OC-clone/main/open-construction-data"
 DEFAULT_SITE_BASE_URL = "https://www.openconstruction.org"
 DEFAULT_CACHE_TTL_SECONDS = 600
 

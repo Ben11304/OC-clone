@@ -4,6 +4,7 @@
 (() => {
   const AWARD_URL = 'https://www.nsf.gov/awardsearch/show-award?AWD_ID=2612086';
   const LINKEDIN_URL = 'https://www.linkedin.com/company/openconstruction-open-science-initiative/';
+  const GITHUB_URL = 'https://github.com/Ben11304/OC-clone';
   const scriptSrc = document.currentScript?.getAttribute('src') || 'assets/js/site-shell.js';
   const assetPrefix = scriptSrc.replace(/assets\/js\/site-shell\.js(?:\?.*)?$/, 'assets/');
 
@@ -34,6 +35,10 @@
     'benchmark_results.html': 'benchmarks',
     'object_class': 'benchmarks',
     'object_class.html': 'benchmarks',
+    'tutorials': 'learn',
+    'tutorials.html': 'learn',
+    'references': 'learn',
+    'references.html': 'learn',
     'schema': 'docs',
     'schema.html': 'docs',
     'tools': 'docs',
@@ -63,11 +68,11 @@
 
   const ROUTE_GROUPS = {
     libraries: new Set(['dataset', 'models', 'deployments', 'oer']),
-    docs: new Set(['docs'])
+    learn: new Set(['learn'])
   };
 
   const CATALOG_TITLE_FILES = new Set(['dataset.html', 'models.html', 'deployments.html', 'oer.html']);
-  const DOCS_TITLE_FILES = new Set(['schema.html', 'tools.html', 'guides.html', 'mcp.html']);
+  const DOCS_TITLE_FILES = new Set(['tutorials.html', 'references.html', 'schema.html', 'tools.html', 'guides.html', 'mcp.html']);
   const PAGE_TITLE_FILES = new Set(['benchmarks.html', 'contribute.html', 'contributors.html']);
 
   const CATALOG_META = {
@@ -90,6 +95,14 @@
   };
 
   const DOCS_META = {
+    'tutorials.html': {
+      label: 'Tutorial',
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="m10 9 5 3-5 3V9Z"></path></svg>'
+    },
+    'references.html': {
+      label: 'Documentation',
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2"></rect><path d="M8.5 8h7"></path><path d="M8.5 12h7"></path><path d="M8.5 16h4.5"></path><path d="M17 3.5v4h2"></path></svg>'
+    },
     'schema.html': {
       label: 'Schema',
       icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"></rect><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>'
@@ -110,12 +123,12 @@
 
   const PAGE_TITLE_META = {
     'benchmarks.html': {
-      label: 'Benchmarks',
-      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle class="oc-icon-fill" cx="12" cy="12" r="6.5"></circle><circle cx="12" cy="12" r="6.5"></circle><circle cx="12" cy="12" r="2.1"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>'
+      label: 'Catalog Insights',
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16"></path><path d="M5 14.5 9 11l3.2 2.6L18.5 6.8"></path><path d="M14.5 6.8h4v4"></path></svg>'
     },
     'contribute.html': {
       label: 'Contribute',
-      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="oc-icon-fill" d="M5 17.5V20h2.5L18.4 9.1l-2.5-2.5L5 17.5Z"></path><path d="M5 17.5V20h2.5L18.4 9.1a1.8 1.8 0 0 0 0-2.5 1.8 1.8 0 0 0-2.5 0L5 17.5Z"></path><path d="m14.6 7.9 2.5 2.5"></path></svg>'
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="oc-icon-fill" d="M5 16.5h14V20H5v-3.5Z"></path><path d="M5 16.5V20h14v-3.5"></path><path d="M12 4v10"></path><path d="m8 8 4-4 4 4"></path><path d="M8.5 12.5h-2A1.5 1.5 0 0 0 5 14v2.5"></path><path d="M15.5 12.5h2A1.5 1.5 0 0 1 19 14v2.5"></path></svg>'
     },
     'contributors.html': {
       label: 'Community',
@@ -130,17 +143,17 @@
       dropdown: true
     },
     benchmarks: {
-      label: 'Benchmarks',
-      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5"></circle><circle cx="12" cy="12" r="2.1"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>'
+      label: 'Insights',
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16"></path><path d="M5 14.5 9 11l3.2 2.6L18.5 6.8"></path><path d="M14.5 6.8h4v4"></path></svg>'
     },
-    docs: {
-      label: 'Docs',
-      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"></rect><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>',
+    learn: {
+      label: 'Learn',
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 12 4l9 5-9 5-9-5Z"></path><path d="M7 11.2v4.1c0 1.4 2.2 2.7 5 2.7s5-1.3 5-2.7v-4.1"></path><path d="M21 9v5"></path></svg>',
       dropdown: true
     },
     contribute: {
       label: 'Contribute',
-      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17.5V20h2.5L18.4 9.1a1.8 1.8 0 0 0 0-2.5 1.8 1.8 0 0 0-2.5 0L5 17.5Z"></path><path d="m14.6 7.9 2.5 2.5"></path></svg>'
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16.5V20h14v-3.5"></path><path d="M12 4v10"></path><path d="m8 8 4-4 4 4"></path><path d="M8.5 12.5h-2A1.5 1.5 0 0 0 5 14v2.5"></path><path d="M15.5 12.5h2A1.5 1.5 0 0 1 19 14v2.5"></path></svg>'
     },
     contributors: {
       label: 'Community',
@@ -243,9 +256,8 @@
     if (ROUTE_GROUPS.libraries.has(route)) {
       document.getElementById('ddLibraries')?.classList.add('active');
     }
-    if (ROUTE_GROUPS.docs.has(route)) {
-      const docsLink = document.getElementById('ddDocs') || document.getElementById('ddResourcesMenu');
-      docsLink?.classList.add('active');
+    if (ROUTE_GROUPS.learn.has(route)) {
+      document.getElementById('ddResourcesMenu')?.classList.add('active');
     }
   }
 
@@ -264,7 +276,7 @@
     [
       { selector: '#ddLibraries, #ddCatalogs', key: 'catalog' },
       { selector: '.nav-link.plain[data-route="benchmarks"], .nav-link.plain[href$="benchmarks.html"]', key: 'benchmarks' },
-      { selector: '#ddDocs, #ddResourcesMenu', key: 'docs' },
+      { selector: '#ddResourcesMenu', key: 'learn' },
       { selector: '.nav-link.plain[data-route="contribute"], .nav-link.plain[href$="contribute.html"]', key: 'contribute' },
       { selector: '.nav-link.plain[data-route="contributors"], .nav-link.plain[href$="contributors.html"]', key: 'contributors' }
     ].forEach(({ selector, key }) => {
@@ -448,7 +460,7 @@
     nav.querySelectorAll('.dropdown-item').forEach(item => {
       const itemHref = item.getAttribute('href');
       const itemRoute = routeForHref(itemHref);
-      if (itemRoute === currentRoute && (currentRoute !== 'docs' || fileForHref(itemHref) === currentFile)) {
+      if (itemRoute === currentRoute && (!['docs', 'learn'].includes(currentRoute) || fileForHref(itemHref) === currentFile)) {
         item.classList.add('active');
       }
     });
@@ -502,6 +514,44 @@
         color:var(--oc-ink,#0f2e4b)!important;
         text-decoration:underline;
         text-underline-offset:3px;
+      }
+      .oc-footer-socials{
+        display:inline-flex;
+        align-items:center;
+        gap:.38rem;
+      }
+      .oc-footer-social-link{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:1.45rem;
+        height:1.45rem;
+        border-radius:999px;
+        color:var(--oc-subtle,#4f5d6c)!important;
+        line-height:1;
+        vertical-align:middle;
+        transition:background-color .15s ease, transform .15s ease;
+      }
+      .oc-footer-social-link:hover,
+      .oc-footer-social-link:focus{
+        color:var(--oc-ink,#0f2e4b)!important;
+        background:#f4f7fb;
+        text-decoration:none!important;
+        transform:translateY(-1px);
+      }
+      .oc-footer-social-link svg,
+      .oc-footer-social-icon{
+        display:block;
+        width:.95rem;
+        height:.95rem;
+        fill:currentColor;
+        transition:opacity .15s ease;
+      }
+      .oc-footer-social-link[aria-label*="LinkedIn"]:hover .oc-footer-social-icon,
+      .oc-footer-social-link[aria-label*="LinkedIn"]:focus .oc-footer-social-icon,
+      .oc-footer-social-link[aria-label*="GitHub"]:hover .oc-footer-social-icon,
+      .oc-footer-social-link[aria-label*="GitHub"]:focus .oc-footer-social-icon{
+        opacity:.82;
       }
       .navbar .navbar-nav{
         align-items:center;
@@ -725,10 +775,8 @@
         margin-left:0;
         margin-right:0;
       }
-      header.hero .oc-docs-title{
-        justify-content:center;
-        margin-left:auto;
-        margin-right:auto;
+      header.hero h1.oc-docs-title{
+        max-width:100%;
       }
       .oc-docs-title-copy{
         min-width:0;
@@ -1029,7 +1077,7 @@
     if (document.getElementById('ocAiLauncher')) return;
     injectAiAssistantStyles();
     document.body.classList.add('oc-ai-floating-mounted');
-    const privacyHref = `${pagePrefix()}contribute.html#privacy`;
+    const privacyHref = `${pagePrefix()}references.html#privacy`;
     const examplePrompt = 'e.g. Find datasets for construction safety with worker, PPE, or equipment annotations';
     const wrap = document.createElement('div');
     wrap.innerHTML = `
@@ -1117,11 +1165,26 @@
     if (linksClone) {
       linksClone.classList.add('oc-footer-links');
       const linkWrap = linksClone.querySelector('small') || linksClone;
-      if (!linkWrap.querySelector('a[href*="linkedin.com/company/openconstruction-open-science-initiative"]')) {
+      linkWrap.querySelectorAll('a[href*="references.html#referencesTitle"]').forEach(link => {
+        link.textContent = 'Documentation';
+        link.setAttribute('href', (link.getAttribute('href') || '').replace('#referencesTitle', ''));
+      });
+      if (!linkWrap.querySelector('.oc-footer-socials')) {
+        linkWrap.querySelectorAll('a[href*="linkedin.com/company/openconstruction-open-science-initiative"], a[href*="github.com/ruoxinx/open-construction"]').forEach(link => {
+          link.previousElementSibling?.matches?.('span[aria-hidden="true"]') && link.previousElementSibling.remove();
+          link.remove();
+        });
         linkWrap.insertAdjacentHTML(
           'beforeend',
           ` <span aria-hidden="true">&middot;</span>
-          <a href="${LINKEDIN_URL}" class="text-muted" target="_blank" rel="noopener noreferrer">LinkedIn</a>`
+          <span class="oc-footer-socials" aria-label="OpenConstruction social links">
+            <a href="${LINKEDIN_URL}" class="text-muted oc-footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="OpenConstruction on LinkedIn" title="LinkedIn">
+              <img class="oc-footer-social-icon" src="${assetPrefix}img/footer-linkedin.svg?v=20260825-footer-social-icons-color" alt="" width="16" height="16">
+            </a>
+            <a href="${GITHUB_URL}" class="text-muted oc-footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="OpenConstruction on GitHub" title="GitHub">
+              <img class="oc-footer-social-icon" src="${assetPrefix}img/footer-github.svg?v=20260825-footer-social-icons-color" alt="" width="16" height="16">
+            </a>
+          </span>`
         );
       }
     }
@@ -1152,6 +1215,19 @@
     });
   }
 
+  function loadUsageLogger(){
+    if (window.OCUsageAnalytics?.ready || document.querySelector('script[data-oc-usage-logger="true"]')) return;
+    if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY || !window.supabase?.createClient) return;
+    const pageFile = cleanFile(window.location.pathname);
+    if (!pageFile || pageFile === 'index.html') return;
+    const script = document.createElement('script');
+    script.src = `${assetPrefix}js/visit-logger.js?v=20260826-geo-ua-cleanup`;
+    script.async = true;
+    script.dataset.ocUsageLogger = 'true';
+    script.dataset.page = window.location.pathname.replace(/^\/+|\/+$/g, '').replace(/\.html$/i, '') || 'index';
+    document.head.appendChild(script);
+  }
+
   function init(){
     setFooterYear();
     normalizeHeaderNav();
@@ -1167,6 +1243,7 @@
     [250, 1000, 2500].forEach(delay => window.setTimeout(refreshProtectedShell, delay));
     bindSearchArrowActions();
     normalizeFooter();
+    loadUsageLogger();
   }
 
   window.OpenConstructionShell = {

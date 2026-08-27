@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="theme-color" content="#0f2e4b">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutorials | OpenConstruction</title>
+  <meta name="description" content="OpenConstruction tutorial videos, tutorial documentation, and submission guidance for contributors.">
+  <link rel="canonical" href="https://www.openconstruction.org/tutorials.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpenConstruction.org">
+  <meta property="og:title" content="Tutorials | OpenConstruction">
+  <meta property="og:description" content="OpenConstruction tutorial videos, tutorial documentation, and submission guidance for contributors.">
+  <meta property="og:url" content="https://www.openconstruction.org/tutorials.html">
+  <meta property="og:image" content="https://www.openconstruction.org/assets/img/icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "VideoObject",
+        "name": "How to Submit Assets to OpenConstruction",
+        "description": "A short walkthrough for preparing an asset submission and avoiding common metadata gaps.",
+        "embedUrl": "https://player.vimeo.com/video/1220638773",
+        "thumbnailUrl": "https://www.openconstruction.org/docs/tutorials/submit%20an%20asset.png",
+        "url": "https://www.openconstruction.org/tutorials.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "OpenConstruction Open Science Initiative",
+          "url": "https://www.openconstruction.org/"
+        },
+        "learningResourceType": "Tutorial video",
+        "associatedMedia": {
+          "@type": "MediaObject",
+          "name": "How to Submit an Asset to OpenConstruction tutorial documentation",
+          "contentUrl": "https://www.openconstruction.org/docs/tutorials/How%20to%20Submit%20an%20Asset%20to%20OpenConstruction.pdf",
+          "encodingFormat": "application/pdf"
+        }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "How to Report an Issue to OpenConstruction",
+        "description": "A short walkthrough for reporting broken links, incorrect metadata, duplicates, or license concerns.",
+        "embedUrl": "https://player.vimeo.com/video/1220638772",
+        "thumbnailUrl": "https://www.openconstruction.org/docs/tutorials/report%20an%20issue.png",
+        "url": "https://www.openconstruction.org/tutorials.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "OpenConstruction Open Science Initiative",
+          "url": "https://www.openconstruction.org/"
+        },
+        "learningResourceType": "Tutorial video",
+        "associatedMedia": {
+          "@type": "MediaObject",
+          "name": "How to Report an Issue to OpenConstruction tutorial documentation",
+          "contentUrl": "https://www.openconstruction.org/docs/tutorials/How%20to%20Report%20an%20Issue%20to%20OpenConstruction.pdf",
+          "encodingFormat": "application/pdf"
+        }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "How to Find the Right Dataset",
+        "description": "A short walkthrough for using OpenConstruction filters and metadata to identify a reusable dataset.",
+        "embedUrl": "https://player.vimeo.com/video/1220956153",
+        "thumbnailUrl": "https://www.openconstruction.org/docs/tutorials/find%20dataset.png",
+        "url": "https://www.openconstruction.org/tutorials.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "OpenConstruction Open Science Initiative",
+          "url": "https://www.openconstruction.org/"
+        },
+        "learningResourceType": "Tutorial video",
+        "associatedMedia": {
+          "@type": "MediaObject",
+          "name": "How to Find the Right Dataset tutorial documentation",
+          "contentUrl": "https://www.openconstruction.org/docs/tutorials/How%20to%20Find%20the%20Right%20Dataset.pdf",
+          "encodingFormat": "application/pdf"
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/shared-site.css?v=20260825-footer-social-icons" rel="stylesheet">
+  <style>
+    :root{--oc-bg:#fff;--oc-text:#1e2a36;--oc-sub:#4f5d6c;--oc-border:#e7edf3;--oc-ink:#0f2e4b;--oc-link:#0b66c3;--oc-shadow:0 8px 24px rgba(15,46,75,.06)}
+    html,body{background:var(--oc-bg);color:var(--oc-text)}
+    a{color:var(--oc-link);text-underline-offset:3px}
+    .oc-container{max-width:1120px}
+    header.hero{border-bottom:1px solid var(--oc-border);background:#fff}
+    header.hero .content{padding:50px 0 28px;text-align:left}
+    header.hero h1{max-width:22ch;color:var(--oc-ink);font-size:clamp(2rem,1.45rem + 2vw,3rem);font-weight:800;line-height:1.06;margin:0}
+    .kicker{color:var(--oc-sub);font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .tutorial-section{padding:34px 0}
+    .section-head{display:block;margin-bottom:1.25rem}
+    .section-head h2{color:var(--oc-ink);font-size:clamp(1.42rem,1.14rem + 1vw,2rem);font-weight:800;line-height:1.12;margin:.18rem 0 0;white-space:nowrap}
+    .section-head p{color:var(--oc-sub);font-size:.95rem;line-height:1.56;margin:.15rem 0 0}
+    .video-card,.tutorial-card,.qa-panel{border:1px solid var(--oc-border);border-radius:8px;background:#fff;box-shadow:var(--oc-shadow)}
+    .video-card,.tutorial-card{position:relative;overflow:hidden}
+    .video-card > *,.tutorial-card > *{position:relative;z-index:1}
+    .video-card{display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(280px,.9fr);gap:1rem;padding:1rem;background:#fbfdff}
+    .video-stage,.card-video-frame{position:relative;aspect-ratio:16 / 9;border:1px solid #d9e6ef;border-radius:8px;background:#f6f9fc;overflow:hidden}
+    .video-stage iframe,.card-video-frame iframe,.video-thumb{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-stage{align-self:center}
+    .video-thumb{display:block;padding:0;background:#edf5fc;color:var(--oc-ink);cursor:pointer}
+    .video-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+    .video-thumb img.find-dataset-preview{object-position:center 44%}
+    .video-thumb .play-button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+    .video-thumb:hover .play-button,.video-thumb:focus-visible .play-button{transform:translate(-50%,-50%) scale(1.04);box-shadow:0 16px 34px rgba(15,46,75,.18)}
+    .video-thumb:focus-visible{outline:3px solid rgba(11,102,195,.35);outline-offset:-3px}
+    .play-button{display:grid;place-items:center;width:66px;height:66px;border:1px solid rgba(15,46,75,.2);border-radius:50%;background:#fff;color:var(--oc-ink);box-shadow:0 12px 28px rgba(15,46,75,.12);transition:transform .16s ease,box-shadow .16s ease}
+    .play-button svg{width:27px;height:27px;fill:currentColor;transform:translateX(2px)}
+    .status-pill,.mini-label{display:inline-flex;align-items:center;width:max-content;min-height:22px;border:1px solid #d9e6ef;border-radius:6px;background:#f7fafc;color:#526071;font-size:.68rem;font-weight:850;line-height:1;padding:.18rem .45rem;text-transform:uppercase}
+    .video-copy{display:flex;flex-direction:column;gap:.7rem;padding:.15rem .15rem .15rem 0}
+    .video-copy h2,.video-copy h3{color:var(--oc-ink);font-size:1.22rem;font-weight:850;line-height:1.25;margin:0}
+    .video-copy p,.tutorial-card p{color:var(--oc-sub);font-size:.9rem;line-height:1.48;margin:0}
+    .highlight-list{display:grid;gap:.35rem;margin:.15rem 0 0;padding-left:1.1rem;color:var(--oc-sub)}
+    .highlight-list li{font-size:.9rem;line-height:1.42}
+    .tutorial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+    .tutorial-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.62rem .65rem;align-items:center;padding:.75rem;min-width:0;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+    .tutorial-card:not(.coming-soon):hover,.tutorial-card:not(.coming-soon):focus-within{border-color:#cad9e8;box-shadow:0 12px 28px rgba(15,46,75,.09);transform:translateY(-1px)}
+    .tutorial-card .card-video-frame{grid-column:1 / -1;width:100%;aspect-ratio:2.45 / 1}
+    .card-video-frame .play-button{width:48px;height:48px}
+    .card-video-frame .play-button svg{width:20px;height:20px}
+    .tutorial-index{position:absolute;right:.65rem;bottom:-.36rem;z-index:0;color:#edf3f8;font-size:clamp(3.2rem,5.5vw,4.5rem);font-weight:800;line-height:.82;letter-spacing:0;pointer-events:none;user-select:none}
+    .tutorial-card .mini-label{display:none}
+    .tutorial-card h3{grid-column:1;color:var(--oc-ink);font-size:.98rem;font-weight:800;line-height:1.24;margin:0;min-width:0}
+    .tutorial-card:not(.coming-soon) h3{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .tutorial-card p{display:none}
+    .tutorial-tags{display:none}
+    .tutorial-tags span{display:inline-flex;align-items:center;min-height:21px;border:1px solid #e1e9f1;border-radius:6px;background:#fbfdff;color:var(--oc-sub);font-size:.7rem;font-weight:650;line-height:1;padding:.2rem .42rem}
+    .tutorial-actions{display:flex;flex-wrap:wrap;gap:.48rem;margin-top:.08rem}
+    .tutorial-actions a,.tutorial-actions button{display:inline-flex;align-items:center;gap:.36rem;min-height:32px;border:1px solid #d9e6ef;border-radius:6px;color:var(--oc-ink);background:#fff;font-size:.82rem;font-weight:750;line-height:1;text-decoration:none;padding:.4rem .6rem}
+    .tutorial-card .tutorial-actions{grid-column:2;justify-content:flex-end;gap:.35rem;margin-top:0;white-space:nowrap}
+    .tutorial-card:not(.coming-soon) .tutorial-actions{grid-column:1 / -1}
+    .tutorial-card:not(.coming-soon) .tutorial-actions{justify-content:flex-start}
+    .tutorial-card .tutorial-actions a,.tutorial-card .tutorial-actions button{min-height:29px;font-size:.78rem;padding:.34rem .5rem}
+    .tutorial-actions svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+    .tutorial-actions button{cursor:pointer}
+    .tutorial-actions .primary{border-color:#c8d8e8;background:#eef6ff;color:#1f4f82}
+    .tutorial-actions a:hover,.tutorial-actions a:focus,.tutorial-actions button:hover,.tutorial-actions button:focus{border-color:#b9c8d6;color:var(--oc-link);text-decoration:none}
+    .coming-soon{
+      position:relative;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:.45rem;
+      align-content:center;
+      justify-items:center;
+      text-align:center;
+      border-style:dashed;
+      background:#fbfdff;
+      box-shadow:none;
+      overflow:hidden;
+    }
+    .coming-soon-art{
+      position:relative;
+      display:grid;
+      place-items:center;
+      color:#d8e7f3;
+      opacity:.85;
+      pointer-events:none;
+    }
+    .coming-soon-art svg{width:64px;height:64px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .coming-soon h3,.coming-soon .mini-label{position:relative;z-index:1;grid-column:1 / -1;justify-self:center}
+    .coming-soon .tutorial-index{display:none}
+    .qa-panel{padding:.4rem;counter-reset:qa-item}
+    details{border-bottom:1px solid #eef2f6}
+    details:last-child{border-bottom:0}
+    .qa-panel details{counter-increment:qa-item}
+    summary{display:flex;align-items:center;gap:.72rem;cursor:pointer;list-style:none;color:var(--oc-ink);font-weight:800;padding:.9rem}
+    .qa-panel summary::before{content:counter(qa-item, decimal-leading-zero);flex:0 0 auto;color:#8a98a8;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+    .qa-panel summary span{flex:1;min-width:0}
+    summary::-webkit-details-marker{display:none}
+    summary::after{content:"+";display:grid;place-items:center;width:24px;height:24px;margin-left:auto;border:1px solid var(--oc-border);border-radius:50%;color:var(--oc-sub);font-weight:800;line-height:1;flex:0 0 auto}
+    details[open] summary::after{content:"-"}
+    details p{color:var(--oc-sub);font-size:.92rem;line-height:1.55;margin:0;padding:0 .9rem .9rem}
+    .video-modal .modal-content{background:#05070a;border:0;border-radius:8px;overflow:hidden}
+    .video-modal .modal-header{border:0;padding:.65rem .85rem;background:#05070a;color:#fff}
+    .video-modal .btn-close{filter:invert(1);opacity:.8}
+    .modal-video-frame{position:relative;aspect-ratio:16 / 9;background:#000}
+    .modal-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    @media (max-width:991.98px){.tutorial-grid{grid-template-columns:1fr}.video-card{grid-template-columns:1fr}.video-copy{padding:.1rem}.tutorial-index{right:.7rem;bottom:-.38rem;font-size:4.2rem}}
+    @media (max-width:767.98px){.section-head h2{white-space:normal}}
+    @media (max-width:575.98px){header.hero .content{padding:40px 0 24px}.tutorial-card{grid-template-columns:1fr}.tutorial-card .card-video-frame,.tutorial-card h3,.tutorial-card .tutorial-actions{grid-column:1;grid-row:auto}.tutorial-card .tutorial-actions{justify-content:flex-start;white-space:normal}}
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Skip to tutorials</a>
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top oc-nav">
+  <div class="container oc-container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="assets/img/icon.png" alt="OpenConstruction logo" class="oc-logo" height="44" width="44"><span class="brand-wordmark"><span class="oc-open">OpenConstruction</span><span class="oc-construction">Open Science</span></span></a>
+    <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarsExample"><ul class="navbar-nav ms-auto align-items-lg-center gap-2"><li class="nav-item"><a class="nav-link plain" href="index.html" data-route="index">Home</a></li><li class="nav-item dropdown"><a class="nav-link plain dropdown-toggle" href="#" id="ddLibraries" role="button" data-bs-toggle="dropdown" aria-expanded="false">Libraries</a><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddLibraries"><li><a class="dropdown-item" href="dataset.html">Datasets</a></li><li><a class="dropdown-item" href="models.html">Models</a></li><li><a class="dropdown-item" href="deployments.html">Workflows</a></li><li><a class="dropdown-item" href="oer.html">OERs</a></li></ul></li><li class="nav-item"><a class="nav-link plain" href="benchmarks.html" data-route="benchmarks">Insights</a></li><li class="nav-item dropdown">
+          <a class="nav-link plain dropdown-toggle active" href="#" id="ddResourcesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Learn</a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddResourcesMenu">
+            <li><a class="dropdown-item active" href="tutorials.html">Tutorial</a></li>
+            <li><a class="dropdown-item" href="references.html">Documentation</a></li>
+          </ul>
+        </li><li class="nav-item"><a class="nav-link plain" href="contribute.html" data-route="contribute">Contribute</a></li><li class="nav-item"><a class="nav-link plain" href="contributors.html" data-route="contributors">Community</a></li><li class="nav-item" id="ocAuthNavItem"><div class="oc-auth-actions"><a class="nav-link plain oc-auth-login-link" href="auth/sign-in.html?mode=login" rel="nofollow">Log in</a><a class="nav-link plain oc-auth-signup-link" href="auth/sign-in.html?mode=signup" rel="nofollow">Sign up</a></div></li></ul></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container oc-container content">
+    <div class="kicker">Tutorials</div>
+    <h1>OpenConstruction Tutorials</h1>
+  </div>
+</header>
+
+<main id="mainContent">
+  <section class="tutorial-section" aria-labelledby="featuredSectionTitle">
+    <div class="container oc-container">
+      <div class="section-head">
+        <div>
+          <h2 id="featuredSectionTitle">Featured Tutorial</h2>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-stage">
+          <iframe src="https://player.vimeo.com/video/1220956153?badge=0&amp;autopause=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen title="How to Find the Right Dataset"></iframe>
+        </div>
+        <div class="video-copy">
+          <span class="status-pill">Dataset Discovery Tutorial</span>
+          <h3 id="featuredTutorialTitle">Find the Right Dataset</h3>
+          <p>A short walkthrough for using OpenConstruction filters and metadata to identify a reusable dataset.</p>
+          <ul class="highlight-list">
+            <li>Search and filter datasets by format, category, location, date, and license.</li>
+            <li>Review metadata signals before deciding whether a dataset fits your task.</li>
+            <li>Use the companion PDF as a checklist for search, filtering, verification, and refinement.</li>
+          </ul>
+          <div class="tutorial-actions">
+            <a href="docs/tutorials/How%20to%20Find%20the%20Right%20Dataset.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg><span>PDF guide</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tutorial-section" aria-labelledby="tutorialGalleryTitle">
+    <div class="container oc-container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Gallery</div>
+          <h2 id="tutorialGalleryTitle">Tutorial Videos</h2>
+        </div>
+      </div>
+
+      <div class="tutorial-grid">
+        <article class="tutorial-card">
+          <span class="tutorial-index" aria-hidden="true">01</span>
+          <div class="card-video-frame">
+            <button class="video-thumb" type="button" data-video-id="1220638773" data-video-title="How to Submit Assets to OpenConstruction" aria-label="Watch How to Submit Assets to OpenConstruction">
+              <img src="docs/tutorials/submit%20an%20asset.png" alt="Submit an Asset tutorial preview" loading="lazy">
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+            </button>
+          </div>
+          <span class="mini-label">Submission Tutorial</span>
+          <h3>Submit an Asset</h3>
+          <p>Prepare key metadata before sending a resource for review.</p>
+          <div class="tutorial-actions">
+            <a href="docs/tutorials/How%20to%20Submit%20an%20Asset%20to%20OpenConstruction.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg><span>PDF guide</span></a>
+          </div>
+        </article>
+
+        <article class="tutorial-card">
+          <span class="tutorial-index" aria-hidden="true">02</span>
+          <div class="card-video-frame">
+            <button class="video-thumb" type="button" data-video-id="1220638772" data-video-title="How to Report an Issue to OpenConstruction" aria-label="Watch How to Report an Issue to OpenConstruction">
+              <img src="docs/tutorials/report%20an%20issue.png" alt="Report an Issue tutorial preview" loading="lazy">
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+            </button>
+          </div>
+          <span class="mini-label">Issue Reporting Tutorial</span>
+          <h3>Report an Issue</h3>
+          <p>Flag broken links, metadata errors, duplicates, or license concerns.</p>
+          <div class="tutorial-actions">
+            <a href="docs/tutorials/How%20to%20Report%20an%20Issue%20to%20OpenConstruction.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg><span>PDF guide</span></a>
+          </div>
+        </article>
+
+        <article class="tutorial-card">
+          <span class="tutorial-index" aria-hidden="true">03</span>
+          <div class="card-video-frame">
+            <button class="video-thumb" type="button" data-video-id="1220956153" data-video-title="How to Find the Right Dataset" aria-label="Watch How to Find the Right Dataset">
+              <img class="find-dataset-preview" src="docs/tutorials/find%20dataset.png" alt="Find the Right Dataset tutorial preview" loading="lazy">
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+            </button>
+          </div>
+          <span class="mini-label">Dataset Discovery Tutorial</span>
+          <h3>Find the Right Dataset</h3>
+          <p>Search, filter, and verify dataset fit before reuse.</p>
+          <div class="tutorial-actions">
+            <a href="docs/tutorials/How%20to%20Find%20the%20Right%20Dataset.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg><span>PDF guide</span></a>
+          </div>
+        </article>
+
+        <article class="tutorial-card coming-soon">
+          <span class="tutorial-index" aria-hidden="true">04</span>
+          <span class="coming-soon-art" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="4" y="6" width="16" height="12" rx="2"></rect>
+              <path d="M10 9.5v5l4-2.5-4-2.5Z"></path>
+              <path d="M7 20h10"></path>
+            </svg>
+          </span>
+          <span class="mini-label">Coming Soon</span>
+          <h3>More Tutorials Coming Soon</h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="tutorial-section" id="submissionGuidance" aria-labelledby="qaTitle">
+    <div class="container oc-container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Q&amp;A</div>
+          <h2 id="qaTitle">Submission and Review Guidance</h2>
+        </div>
+      </div>
+      <div class="qa-panel">
+        <details open><summary><span>What resources can I submit?</span></summary><p>You can submit construction and AEC datasets, models, workflows, benchmarks, tools, OERs, and reusable data examples. Strong submissions have a stable source link, clear ownership, documented license or access terms, and enough context for others to evaluate reuse.</p></details>
+        <details><summary><span>What information should I prepare before submitting?</span></summary><p>Prepare the resource title, public source link, author or organization information, resource type, short description, license or access notes, and any relevant task, domain, modality, or format details. See the <a href="schema.html">metadata fields</a> for the full catalog schema.</p></details>
+        <details><summary><span>Do I need to host files on OpenConstruction?</span></summary><p>No. OpenConstruction primarily indexes public metadata and points users to original repositories, project pages, DOIs, papers, or code. Use a stable repository, DOI, or project page whenever possible.</p></details>
+        <details><summary><span>Can I submit someone else's resource?</span></summary><p>Yes, if the resource is public or you have permission from the authors or rights holders to suggest it. Provide clear attribution, a stable source link, and known license or access terms. Do not present third-party resources as your own work.</p></details>
+        <details><summary><span>What if the license is unclear?</span></summary><p>You can still suggest the resource, but mark the license as unknown or explain what information is available. Maintainers may defer publication until reuse terms, ownership, or access conditions are clarified.</p></details>
+        <details><summary><span>Can I update an existing record instead of submitting a new one?</span></summary><p>Yes. Use the <a href="account.html?report=issue&amp;issue_type=metadata">report workflow</a> for broken links, metadata corrections, license updates, duplicate records, or other improvements to resources already listed in OpenConstruction.</p></details>
+        <details><summary><span>Can restricted-access resources be listed?</span></summary><p>Yes, if the public metadata is useful and the access conditions are clear. OpenConstruction can list metadata for controlled or request-only resources without hosting or redistributing the underlying files.</p></details>
+        <details><summary><span>What may be deferred or declined?</span></summary><p>Submissions may be deferred or declined if they are outside AEC, duplicate an existing record, rely on broken or unstable links, have unclear ownership, lack reuse terms, or raise unresolved privacy, consent, safety, or site-sensitivity concerns.</p></details>
+        <details><summary><span>What if my dataset contains sensitive site information?</span></summary><p>Document the sensitivity clearly. Review faces, license plates, site locations, critical infrastructure, worker privacy, contract restrictions, and consent conditions before sharing. If public release is not appropriate, describe access limits or submit metadata only.</p></details>
+        <details><summary><span>How do I report a broken link or incorrect metadata?</span></summary><p>Use the <a href="account.html?report=issue&amp;issue_type=metadata">report workflow</a> and explain what is wrong, what the corrected value should be, and any source that supports the change.</p></details>
+        <details><summary><span>Do I need an account?</span></summary><p>You can browse content without an account. <a href="auth/sign-in.html?mode=login" rel="nofollow">Sign in</a> when you want to submit resources, bookmark resources, or report corrections through the workspace.</p></details>
+        <details><summary><span>How long does review take?</span></summary><p>Review time depends on completeness and maintainer availability. Submissions with stable links, clear licensing or access terms, complete metadata, and concise reuse notes are easier to evaluate quickly.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade video-modal" id="tutorialVideoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-6" id="tutorialVideoModalTitle">Tutorial Video</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-video-frame">
+        <iframe id="tutorialVideoFrame" src="" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Tutorial video"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="py-4 mt-3 oc-site-footer"><div class="container oc-container small text-muted text-center"><div><img src="assets/img/icon.png" alt="OpenConstruction logo" width="24" height="24" style="vertical-align:-5px; margin-right:4px;"> &copy; <span id="yearNow"></span> OpenConstruction Open Science Initiative</div><div class="mt-1"><small>Licensed under Apache 2.0. Images are &copy; their respective creators unless otherwise noted.</small></div><div class="mt-1"><small><a href="references.html#terms" class="text-muted">Terms</a> &middot; <a href="references.html#privacy" class="text-muted">Data &amp; Privacy</a> &middot; <a href="references.html" class="text-muted">Documentation</a> &middot; <span class="oc-footer-socials" aria-label="OpenConstruction social links"><a href="https://www.linkedin.com/company/openconstruction-open-science-initiative/" class="text-muted oc-footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="OpenConstruction on LinkedIn" title="LinkedIn"><img class="oc-footer-social-icon" src="assets/img/footer-linkedin.svg?v=20260825-footer-social-icons-color" alt="" width="16" height="16"></a><a href="https://github.com/ruoxinx/open-construction" class="text-muted oc-footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="OpenConstruction on GitHub" title="GitHub"><img class="oc-footer-social-icon" src="assets/img/footer-github.svg?v=20260825-footer-social-icons-color" alt="" width="16" height="16"></a></span></small></div></div></footer>
+<script>document.getElementById('yearNow').textContent = new Date().getFullYear();</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2.112.1/dist/umd/supabase.js" integrity="sha384-0x8XPoHt08aHZj+RHs8ojmhZ5IDsTLjPgblgWdriayWriqv9dic3Vkv1K2+UqgZV" crossorigin="anonymous"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js?v=20260819-auth-cta-balance"></script>
+<script src="assets/js/site-shell.js?v=20260827-insights-download"></script>
+<script>
+  (() => {
+    const modalEl = document.getElementById('tutorialVideoModal');
+    const frame = document.getElementById('tutorialVideoFrame');
+    const titleEl = document.getElementById('tutorialVideoModalTitle');
+    if (!modalEl || !frame || !window.bootstrap) return;
+    const modal = new bootstrap.Modal(modalEl);
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('[data-video-id]');
+      if (!trigger) return;
+      const id = trigger.getAttribute('data-video-id');
+      const title = trigger.getAttribute('data-video-title') || 'Tutorial Video';
+      titleEl.textContent = title;
+      frame.title = title;
+      frame.src = `https://player.vimeo.com/video/${encodeURIComponent(id)}?badge=0&autopause=0&autoplay=1&title=0&byline=0&portrait=0&player_id=0&app_id=58479`;
+      modal.show();
+    });
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      frame.src = '';
+    });
+  })();
+</script>
+</body>
+</html>

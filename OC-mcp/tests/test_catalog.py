@@ -1,6 +1,6 @@
 import unittest
 
-from openconstruction_mcp.catalog import CatalogClient
+from openconstruction_mcp.catalog import DEFAULT_DATA_BASE_URL, CatalogClient
 
 
 def fixture(path):
@@ -40,6 +40,12 @@ def fixture(path):
 
 
 class CatalogClientTest(unittest.TestCase):
+    def test_default_catalog_uses_public_oc_clone_snapshot(self):
+        self.assertEqual(
+            DEFAULT_DATA_BASE_URL,
+            "https://raw.githubusercontent.com/Ben11304/OC-clone/main/open-construction-data",
+        )
+
     def test_searches_category_catalogs(self):
         client = CatalogClient(fetch_json=fixture)
 

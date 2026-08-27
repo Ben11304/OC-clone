@@ -57,7 +57,25 @@
               "required": ["provider", "method", "scope"],
               "properties": {
                 "provider": { "type": "string" },
-                "method": { "type": "string", "enum": ["huggingface_snapshot", "github_clone", "figshare_files", "dataverse_collection", "designsafe_globus", "google_drive_folder", "http_files", "dreamhouse_setup", "roboflow_version", "kaggle_competition", "baidu_share_transfer"] },
+                "method": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,79}$" },
+                "resource": {
+                  "type": "object",
+                  "required": ["type"],
+                  "properties": {
+                    "type": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{1,79}$" },
+                    "id": {
+                      "oneOf": [
+                        { "type": "string", "minLength": 1 },
+                        {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": { "type": "string", "minLength": 1 }
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": true
+                },
                 "repo_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$" },
                 "record_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
                 "collection_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },

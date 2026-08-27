@@ -1,5 +1,15 @@
-"""OpenConstruction MCP server package."""
+"""OpenConstruction MCP server and provider-aware download package."""
 
-__all__ = ["__version__"]
+from .download_providers import DownloadProvider, ProviderCapabilities, register_provider
+from .storage import DatasetStore, InstallationStatus
 
-__version__ = "0.1.0"
+__all__ = [
+    "DatasetStore",
+    "DownloadProvider",
+    "InstallationStatus",
+    "ProviderCapabilities",
+    "__version__",
+    "register_provider",
+]
+
+__version__ = "0.1.3"
