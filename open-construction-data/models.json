@@ -1629,7 +1629,7 @@
     "text"
   ],
   "tasks": [
-    "Structural modeling"
+    "Structural model generation"
   ],
   "applications": [
    "Automatic Building Modeling"
@@ -1655,8 +1655,7 @@
   "abstract": "Buildings play a crucial role in shaping urban environments, influencing their physical, functional, and aesthetic characteristics. However, urban analytics is frequently limited by datasets lacking essential semantic details as well as fragmentation across diverse and incompatible data sources. To address these challenges, we conducted a comprehensive meta-analysis of 6,285 publications (2019–2024). From this review, we identified 11 key visually discernible building characteristics grouped into three branches: satellite house, satellite neighborhood, and street-view. Based on this structured characteristic system, we introduce BuildingMultiView, an innovative framework leveraging fine-tuned Large Language Models (LLMs) to systematically extract semantically detailed building characteristics from integrated satellite and street-view imagery. Using structured image–prompt–label triplets, the model efficiently annotates characteristics at multiple spatial scales. These characteristics include swimming pools, roof types, building density, wall–window ratio, and property types. Together, they provide a comprehensive and multi-perspective building database. Experiments conducted across five cities in the USA with diverse architecture and urban form, San Francisco, San Diego, Salt Lake City, Austin, and New York City, demonstrate significant performance improvements, with an F1 score of 79.77% compared to the untuned base version of ChatGPT’s 45.66%. These results reveal diverse urban building patterns and correlations between architectural and environmental characteristics, showcasing the framework’s capability to analyze both macro-scale and micro-scale urban building data. By integrating multi-perspective data sources with cutting-edge LLMs, BuildingMultiView enhances building data extraction, offering a scalable tool for urban planners to address sustainability, infrastructure, and human-centered design, enabling smarter, resilient cities.",
   "year": 2026,
   "modalities": [
-    "Satellite Neighbor",
-	"Satellite House",
+    "Satellite RGB",
 	"Street-view"
   ],
   "tasks": [
@@ -2221,5 +2220,37 @@
   "contributor": "Andrea Carrara",
   "contributor_url": "https://scholar.google.com/citations?user=UFHGodQAAAAJ",
   "note":"Trained weights, released result bundles, and example figures derived from CubiCasa5k / CubiCasa5k-ScanShift are distributed under non-commercial terms aligned with the upstream dataset license."
+},
+{
+  "id": "augmented-bim-log",
+  "title": "Augmented BIM log-based real-time design change monitoring, selective rollback, and design patching",
+  "authors": [
+    "Junghun Lee",
+    "Ghang Lee",
+    "Suhyung Jang",
+    "Seokho Hyun"
+  ],
+  "abstract":"Existing building information modeling (BIM) server-based design change management requires heavy and proprietary systems. Recently, several studies explored BIM log mining for design change management. However, they rely on post-hoc analysis and do not support real-time, interactive review or direct model modification. To address these limitations, this study proposes a lightweight design change management method using a new schema for element-level BIM logs, named augmented BIM logs. The proposed method consists of three components: (1) design change monitoring that enables sequential monitoring and visualization of material quantity changes along the design timeline; (2) selective rollback that allows users to view selected parts of a design at a certain point in time; (3) design patching that allows users to restore only specific parts of the BIM model to previous design status. The method was validated through multiple case studies involving multi-stage design changes. Element-level design changes were tracked and reconstructed with an accuracy of 96.3%, and selective rollback and design patching enabled partial restoration of BIM models to previous states with an accuracy of 93.6%. In addition, on a log-augmented model scaled to tens of thousands of elements, temporal navigation remained interactive without perceptible delay. Overall, the augmented BIM log provides a practical basis for log-based design change tracking and design decision-making.",
+  "year": 2026,
+  "modalities": [
+    "BIM/IFC",
+    "BIM Logs"
+  ],
+	"tasks": [
+	  "Design Change Monitoring",
+	  "Selective Rollback",
+	  "Design Patching"
+	],
+	"applications": [
+	  "BIM Design Change Management",
+	  "Design Review"
+  ],
+  "license": "Not specified",
+  "paper_url": "https://doi.org/10.1016/j.aei.2026.105109",
+  "code_url": "https://beum1998.github.io/",
+  "thumbnail": "assets/img/models/augmented-bim-log.gif",
+  "added_date": "2026-08-26",
+  "contributor": "Building Informatics Group (BIG)",
+  "contributor_url": "http://big.yonsei.ac.kr/"
 }
 ]

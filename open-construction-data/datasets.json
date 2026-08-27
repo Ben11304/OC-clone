@@ -6057,7 +6057,7 @@
   "potential_tasks": [
     "Image labeling",
     "Image captioning",
-    "Visual question and answering"
+    "Visual question answering"
   ],
   "code":"https://github.com/seshing/OpenFACADES",
   "license": "CC BY 4.0",
@@ -6876,5 +6876,153 @@
   "added_date": "2026-08-19",
   "contributor": "Andrea Carrara",
   "contributor_url": "https://scholar.google.com/citations?user=UFHGodQAAAAJ"
+},
+"seismllm_1k": {
+  "name": "SeisMLLM-1K: A Multimodal Dataset for Post-Earthquake Building Safety Evaluation",
+  "authors": "Yixuan Ma, Jun Jiang, Shuo Wang, Jiahui Liu, Xiaojuan Qi, Xuguang Wang",
+  "doi": "https://doi.org/10.1016/j.aei.2026.105126",
+  "year": 2026,
+  "data_modality": "Ground RGB, Text",
+  "num_images": "3,856 images (1,306 cases)",
+  "num_classes": 3,
+  "classes": [
+    "Inspected (Green)",
+    "Restricted Use (Yellow)",
+    "Unsafe (Red)"
+  ],
+  "resolution": "Not Specified",
+  "annotation_types": [
+    "Inspection Scope",
+    "Primary Occupancy",
+    "Construction Type",
+    "Story Number",
+    "Damage Conditions",
+    "Single Image Description",
+	"Case Damage Description",
+	"Safety Posting"
+  ],
+  "geographical_location": "17 global earthquake events",
+  "potential_tasks": [
+    "Post-earthquake inspection",
+    "Damage severity assessment",
+    "Safety posting classification",
+    "Image captioning",
+	"Retrieval-augmented generation"
+  ],
+  "license": "CC BY-NC 4.0",
+  "paper": "A dual-retrieval augmented Multimodal Large Language Model framework for automatic post-earthquake building safety evaluation",
+  "access": "https://github.com/MAYIXUAN836/SeisMLLM-1K-Dataset",
+  "id": "seismllm_1k",
+  "image_url": "assets/img/datasets/seismllm_1k.png",
+  "added_date": "2026-08-20",
+  "contributor": "Xuguang Wang",
+  "contributor_url": "https://www.civil.hku.hk/pp-wangxg.html"
+},
+"elina": {
+  "name": "ELectrical INstallation symbols from Architectural plans (ELINA) Dataset",
+  "authors": "Daniel Schulz, Tobias Jonas, Sebastian P. Bayerl",
+  "doi": "https://doi.org/10.1109/ICECCME64568.2025.11277753 ",
+  "year": 2025,
+  "data_modality": "Synthetic RGB image",
+  "num_images": 7200,
+  "num_classes": "1",
+  "classes": [
+	"Symbol"
+  ],
+  "resolution": "640 × 640",
+  "annotation_types": [
+	"Bounding boxes",
+	"Instance segmentation masks",
+	"Symbol IDs (2,000 distinct ELINA symbols)"
+  ],
+  "geographical_location": "Synthetic",
+  "potential_tasks": [
+    "Symbol detection",
+    "Object detection",
+    "Semantic segmentation"
+  ],
+  "license": "CC BY-NC-SA 4.0",
+  "paper": "Enhancing Automated Building Plan Analysis: The ELINA Dataset for Unknown Symbol Detection",
+  "access": "https://zenodo.org/records/16749425",
+  "id": "elina",
+  "image_url": "assets/img/datasets/elina.png",
+  "added_date": "2026-08-21",
+  "contributor": "Daniel Schulz",
+  "contributor_url": "https://scholar.google.com/citations?user=WyaqHB4AAAAJ"
+},
+"mep_plant_room_pipe_routing": {
+  "name": "MEP Plant Room Pipe Routing Dataset",
+  "authors": "Fanxing Zhang, Kechang Zhu, Ajay Joneja",
+  "doi": "https://doi.org/10.1016/j.autcon.2026.107201",
+  "year": 2026,
+  "data_modality": "BIM/IFC",
+  "num_images": "7",
+  "num_classes": "7",
+  "classes": [
+	  "Complex room - standard",
+	  "Complex room - tee prohibition",
+	  "Complex room - with columns",
+	  "Simple room - reconfiguration",
+	  "Simple room - average preference",
+	  "Simple room - construction preference",
+	  "Simple room - maintenance preference"
+],
+  "annotation_types": [
+    "Pipe routing paths",
+    "Routing constraints",
+    "Lifecycle cost"
+  ],
+  "geographical_location": "Hong Kong",
+  "potential_tasks": [
+    "Automated pipe routing",
+    "MEP layout optimization"
+  ],
+  "license": "CC BY 4.0",
+  "paper": "Automated multi-pipe routing in MEP plant rooms: Preference-driven multi-objective coordination framework for design prototyping",
+  "access": "https://huggingface.co/datasets/IHNF/mep-plant-room-pipe-routing",
+  "id": "mep_plant_room_pipe_routing",
+  "image_url": "assets/img/datasets/mep_plant_room_pipe_routing.png",
+  "added_date": "2026-08-26",
+  "contributor": "Ajay JONEJA",
+  "contributor_url": "https://scholar.google.com/citations?hl=en&user=rkWNfUcAAAAJ&view_op=list_works&sortby=pubdate"
+},
+"bim_edit": {
+  "name": "BIM-Edit Dataset",
+  "authors": "Bharathi Kannan Nithyanantham, Clemens Kujat, Tobias Sesterhenn, Stefan Telgmann, Ashwin Nedungadi, Jörn Plönnigs, Christian Bartelt, Stefan Lüdtke",
+  "doi": "https://doi.org/10.48550/arXiv.2606.20146",
+  "year": 2026,
+  "data_modality": "BIM/IFC, Text",
+  "num_images": "11 realistic +  36 synthetic models",
+  "num_classes": "324 editing tasks",
+  "classes": [
+    "Create (add elements)",
+    "Update (modify elements)",
+    "Delete (remove elements)",
+    "Direct task",
+    "Spatial task",
+    "Topological"
+  ],
+  "resolution": "Not Applicable",
+  "annotation_types": [
+    "Natural-language edit instructions",
+    "Input IFC models",
+    "Ground-truth IFC models",
+    "Edit operation",
+    "Instruction type",
+    "Scene complexity"
+  ],
+  "geographical_location": "Not Specified",
+  "potential_tasks": [
+    "Text-based BIM editing",
+    "IFC-Based Building Information Modeling"
+  ],
+  "license": "CC BY 4.0",
+  "paper": "BIM-Edit: Benchmarking Large Language Models for IFC-Based Building Information Modeling",
+  "access": "https://huggingface.co/BIM-Edit",
+  "id": "bim_edit",
+  "image_url": "assets/img/datasets/bim_edit.png",
+  "added_date": "2026-08-26",
+  "contributor": "Bharathi Kannan Nithyanantham",
+  "contributor_url": "https://www.mds-lab.de/people/bharathi/"
 }
 }

@@ -6642,7 +6642,7 @@
     "tasks": [
       "Image labeling",
       "Image captioning",
-      "Visual question and answering"
+      "Visual question answering"
     ],
     "objects": [
       "type",
@@ -7337,6 +7337,193 @@
       "object detection",
       "bounding box"
     ]
+  },
+  {
+    "id": "seismllm_1k",
+    "type": "dataset",
+    "title": "SeisMLLM-1K: A Multimodal Dataset for Post-Earthquake Building Safety Evaluation",
+    "summary": "A dual-retrieval augmented Multimodal Large Language Model framework for automatic post-earthquake building safety evaluation",
+    "year": 2026,
+    "tasks": [
+      "Post-earthquake inspection",
+      "Damage severity assessment",
+      "Safety posting classification",
+      "Image captioning",
+      "Retrieval-augmented generation"
+    ],
+    "objects": [
+      "Inspected (Green)",
+      "Restricted Use (Yellow)",
+      "Unsafe (Red)"
+    ],
+    "annotations": [
+      "Inspection Scope",
+      "Primary Occupancy",
+      "Construction Type",
+      "Story Number",
+      "Damage Conditions",
+      "Single Image Description",
+      "Case Damage Description",
+      "Safety Posting"
+    ],
+    "modalities": [
+      "Ground RGB",
+      "Text"
+    ],
+    "applications": [],
+    "topics": [],
+    "media": [],
+    "ai_tech": [],
+    "stakeholders": [],
+    "phase": "",
+    "provider": "",
+    "publisher": "",
+    "institutions": [],
+    "contributor": "Xuguang Wang",
+    "license": "CC BY-NC 4.0",
+    "image": "assets/img/datasets/seismllm_1k.png",
+    "data_url": "https://github.com/MAYIXUAN836/SeisMLLM-1K-Dataset",
+    "code_url": "",
+    "href": "datasets/detail.html?id=seismllm_1k",
+    "aliases": []
+  },
+  {
+    "id": "elina",
+    "type": "dataset",
+    "title": "ELectrical INstallation symbols from Architectural plans (ELINA) Dataset",
+    "summary": "Enhancing Automated Building Plan Analysis: The ELINA Dataset for Unknown Symbol Detection",
+    "year": 2025,
+    "tasks": [
+      "Symbol detection",
+      "Object detection",
+      "Semantic segmentation"
+    ],
+    "objects": [
+      "Symbol"
+    ],
+    "annotations": [
+      "Bounding boxes",
+      "Instance segmentation masks",
+      "Symbol IDs (2,000 distinct ELINA symbols)"
+    ],
+    "modalities": [
+      "Synthetic RGB image"
+    ],
+    "applications": [],
+    "topics": [],
+    "media": [],
+    "ai_tech": [],
+    "stakeholders": [],
+    "phase": "",
+    "provider": "",
+    "publisher": "",
+    "institutions": [],
+    "contributor": "Daniel Schulz",
+    "license": "CC BY-NC-SA 4.0",
+    "image": "assets/img/datasets/elina.png",
+    "data_url": "https://zenodo.org/records/16749425",
+    "code_url": "",
+    "href": "datasets/detail.html?id=elina",
+    "aliases": [
+      "bbox",
+      "bounding boxes",
+      "object detection",
+      "bounding box",
+      "semantic segmentation",
+      "instance segmentation",
+      "mask"
+    ]
+  },
+  {
+    "id": "mep_plant_room_pipe_routing",
+    "type": "dataset",
+    "title": "MEP Plant Room Pipe Routing Dataset",
+    "summary": "Automated multi-pipe routing in MEP plant rooms: Preference-driven multi-objective coordination framework for design prototyping",
+    "year": 2026,
+    "tasks": [
+      "Automated pipe routing",
+      "MEP layout optimization"
+    ],
+    "objects": [
+      "Complex room - standard",
+      "Complex room - tee prohibition",
+      "Complex room - with columns",
+      "Simple room - reconfiguration",
+      "Simple room - average preference",
+      "Simple room - construction preference",
+      "Simple room - maintenance preference"
+    ],
+    "annotations": [
+      "Pipe routing paths",
+      "Routing constraints",
+      "Lifecycle cost"
+    ],
+    "modalities": [
+      "BIM/IFC"
+    ],
+    "applications": [],
+    "topics": [],
+    "media": [],
+    "ai_tech": [],
+    "stakeholders": [],
+    "phase": "",
+    "provider": "",
+    "publisher": "",
+    "institutions": [],
+    "contributor": "Ajay JONEJA",
+    "license": "CC BY 4.0",
+    "image": "assets/img/datasets/mep_plant_room_pipe_routing.png",
+    "data_url": "https://huggingface.co/datasets/IHNF/mep-plant-room-pipe-routing",
+    "code_url": "",
+    "href": "datasets/detail.html?id=mep_plant_room_pipe_routing",
+    "aliases": []
+  },
+  {
+    "id": "bim_edit",
+    "type": "dataset",
+    "title": "BIM-Edit Dataset",
+    "summary": "BIM-Edit: Benchmarking Large Language Models for IFC-Based Building Information Modeling",
+    "year": 2026,
+    "tasks": [
+      "Text-based BIM editing",
+      "IFC-Based Building Information Modeling"
+    ],
+    "objects": [
+      "Create (add elements)",
+      "Update (modify elements)",
+      "Delete (remove elements)",
+      "Direct task",
+      "Spatial task",
+      "Topological"
+    ],
+    "annotations": [
+      "Natural-language edit instructions",
+      "Input IFC models",
+      "Ground-truth IFC models",
+      "Edit operation",
+      "Instruction type",
+      "Scene complexity"
+    ],
+    "modalities": [
+      "BIM/IFC",
+      "Text"
+    ],
+    "applications": [],
+    "topics": [],
+    "media": [],
+    "ai_tech": [],
+    "stakeholders": [],
+    "phase": "",
+    "provider": "",
+    "publisher": "",
+    "institutions": [],
+    "contributor": "Bharathi Kannan Nithyanantham",
+    "license": "CC BY 4.0",
+    "image": "assets/img/datasets/bim_edit.png",
+    "data_url": "https://huggingface.co/BIM-Edit",
+    "code_url": "",
+    "href": "datasets/detail.html?id=bim_edit",
+    "aliases": []
   },
   {
     "id": "GDUT-HWD",
@@ -10362,7 +10549,7 @@
     "summary": "Structural modeling is a fundamental component of computational engineering science, in which even minor physical inconsistencies or specification violations may invalidate downstream simulations. The potential of large language models (LLMs) for automatic generation of modeling code has been demonstrated. However, non-executable or physically inconsistent outputs remain prevalent under stringent engineering constrai",
     "year": 2026,
     "tasks": [
-      "Structural modeling"
+      "Structural model generation"
     ],
     "objects": [],
     "annotations": [],
@@ -10400,8 +10587,7 @@
     "objects": [],
     "annotations": [],
     "modalities": [
-      "Satellite Neighbor",
-      "Satellite House",
+      "Satellite RGB",
       "Street-view"
     ],
     "applications": [
@@ -11039,6 +11225,43 @@
     "data_url": "",
     "code_url": "https://github.com/andreacar/floorplan-detection-scan-robustness",
     "href": "models/details.html?id=floorplan_scan_robustness",
+    "aliases": []
+  },
+  {
+    "id": "augmented-bim-log",
+    "type": "model",
+    "title": "Augmented BIM log-based real-time design change monitoring, selective rollback, and design patching",
+    "summary": "Existing building information modeling (BIM) server-based design change management requires heavy and proprietary systems. Recently, several studies explored BIM log mining for design change management. However, they rely on post-hoc analysis and do not support real-time, interactive review or direct model modification. To address these limitations, this study proposes a lightweight design change management method us",
+    "year": 2026,
+    "tasks": [
+      "Design Change Monitoring",
+      "Selective Rollback",
+      "Design Patching"
+    ],
+    "objects": [],
+    "annotations": [],
+    "modalities": [
+      "BIM/IFC",
+      "BIM Logs"
+    ],
+    "applications": [
+      "BIM Design Change Management",
+      "Design Review"
+    ],
+    "topics": [],
+    "media": [],
+    "ai_tech": [],
+    "stakeholders": [],
+    "phase": "",
+    "provider": "",
+    "publisher": "",
+    "institutions": [],
+    "contributor": "Building Informatics Group (BIG)",
+    "license": "Not specified",
+    "image": "assets/img/models/augmented-bim-log.gif",
+    "data_url": "",
+    "code_url": "https://beum1998.github.io/",
+    "href": "models/details.html?id=augmented-bim-log",
     "aliases": []
   },
   {

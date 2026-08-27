@@ -1,6 +1,12 @@
 name: Notify public repo to redeploy
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "*.json"
+      - "img/**"
+      - ".github/workflows/notify-public.yml"
   workflow_run:
     workflows: ["Generate AI Catalog"]
     types: [completed]
@@ -9,7 +15,7 @@ on:
 
 jobs:
   dispatch:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Trigger public repo deploy

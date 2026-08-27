@@ -1963,5 +1963,96 @@
     "affiliation": "Technical University of Munich (Germany)",
     "image":"https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=UFHGodQAAAAJ&citpid=1",
   "type": "person" 
+  },
+      {
+    "id": "Xuguang Wang",
+    "name": "Xuguang Wang",
+    "role": "Dataset Contributor",
+    "link_url": "https://www.civil.hku.hk/pp-wangxg.html",
+    "affiliation": "The University of Hong Kong (HK)",
+    "image":"https://www.civil.hku.hk/staff/photos/wang_xg.jpg",
+  "type": "person" 
+  },
+        {
+    "id": "Yixuan Ma",
+    "name": "Yixuan Ma",
+    "role": "Dataset Contributor",
+    "link_url": "https://github.com/MAYIXUAN836",
+    "affiliation": "The University of Hong Kong (HK)",
+    "image":"https://media.licdn.com/dms/image/v2/D5603AQFR8nw8gEpaQg/profile-displayphoto-crop_800_800/B56ZnmXi.JJQAI-/0/1760506557374?e=1788998400&v=beta&t=h4kFsX6tvTRib_YPpdTQ-F75LINWAepYs85uZUQYe88",
+  "type": "person" 
+  },
+          {
+    "id": "Daniel Schulz",
+    "name": "Daniel Schulz",
+    "role": "Dataset Contributor",
+    "link_url": "https://scholar.google.com/citations?user=WyaqHB4AAAAJ",
+    "affiliation": "Rosenheim Technical University of Applied Sciences (Germany)",
+    "image":"https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=WyaqHB4AAAAJ&citpid=2",
+  "type": "person" 
+  },
+            {
+    "id": "Sebastian P. Bayerl",
+    "name": "Sebastian P. Bayerl",
+    "role": "Dataset Contributor",
+    "link_url": "https://sebastianbayerl.de/",
+    "affiliation": "Rosenheim Technical University of Applied Sciences (Germany)",
+    "image":"https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=M2ScAswAAAAJ&citpid=4",
+  "type": "person" 
+  },
+              {
+    "id": "Ajay Joneja",
+    "name": "Ajay Joneja",
+    "role": "Dataset Contributor",
+    "link_url": "https://scholar.google.com/citations?hl=en&user=rkWNfUcAAAAJ&view_op=list_works&sortby=pubdate",
+    "affiliation": "The Hong Kong University of Science and Technology (HK)",
+    "image":"https://ieda.ust.hk/files/staff/1616734108_h.jpg",
+  "type": "person" 
+  },
+                {
+    "id": "Fanxing Zhang",
+    "name": "Fanxing Zhang",
+    "role": "Dataset Contributor",
+    "link_url": "fx.zhang@connect.ust.hk",
+    "affiliation": "The Hong Kong University of Science and Technology (HK)",
+    "image":"assets/img/contributors/avatar.png",
+  "type": "person" 
+  },
+                  {
+    "id": "Bharathi Kannan Nithyanantham",
+    "name": "Bharathi Kannan Nithyanantham",
+    "role": "Dataset Contributor",
+    "link_url": "https://www.mds-lab.de/people/bharathi/",
+    "affiliation": "University of Rostock (Germany)",
+    "image":"https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=cJnFLboAAAAJ&citpid=4",
+  "type": "person" 
+  },
+                    {
+    "id": "Building Informatics Group (BIG)",
+    "name": "Building Informatics Group (BIG)",
+    "role": "Model Contributor",
+    "link_url": "http://big.yonsei.ac.kr/",
+    "affiliation": "Yonsei University (South Korea)",
+    "image":"assets/img/contributors/big.png",
+  "type": "org" 
+  },
+                      {
+    "id": "Ghang Lee",
+    "name": "Ghang Lee",
+    "role": "Model Contributor",
+    "link_url": "http://big.yonsei.ac.kr/people_more.php?mb_no=1",
+    "affiliation": "Yonsei University (South Korea)",
+    "image":"assets/img/contributors/Ghang Lee.jpg",
+  "type": "person" 
+  },
+                        {
+    "id": "Junghun Lee",
+    "name": "Junghun Lee",
+    "role": "Model Contributor",
+    "link_url": "http://big.yonsei.ac.kr/people.php",
+    "affiliation": "Yonsei University (South Korea)",
+    "image":"assets/img/contributors/Junghun Lee.png",
+  "type": "person" 
   }
+  
 ]

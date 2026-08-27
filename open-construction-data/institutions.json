@@ -111,5 +111,6 @@
   { "name": "Green Energy Park", "logo": "assets/img/institutions/Green Energy Park.png" },
   { "name": "Hanyang University", "logo": "assets/img/institutions/Hanyang University.png" },
   { "name": "UC Berkeley", "logo": "assets/img/institutions/UC Berkeley.png" },
-  { "name": "North Dakota State University ", "logo": "assets/img/institutions/North Dakota State University.png" }
+  { "name": "North Dakota State University ", "logo": "assets/img/institutions/North Dakota State University.png" },
+  { "name": "University of Rostock", "logo": "assets/img/institutions/University of Rostock.png" }
 ]
